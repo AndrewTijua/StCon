@@ -151,6 +151,20 @@ preddata_nonpar <- bind_rows(preddata_m, preddata_w, .id = "Sex")
 preddata_nonpar$Sex <- factor(preddata_nonpar$Sex)
 levels(preddata_nonpar$Sex) <- c("Men", "Women")
 
+ohmd_m <- fortify(ohmd_m)
+ohmd_m$Sex <- as.factor("Men")
+ohmd_w <- fortify(ohmd_w)
+ohmd_w$Sex <- as.factor("Women")
+thmd_m <- fortify(thmd_m)
+thmd_m$Sex <- as.factor("Men")
+thmd_w <- fortify(thmd_w)
+thmd_w$Sex <- as.factor("Women")
+fhmd_m <- fortify(fhmd_m)
+fhmd_m$Sex <- as.factor("Men")
+fhmd_w <- fortify(fhmd_w)
+fhmd_w$Sex <- as.factor("Women")
+
+
 p <- ggplot(preddata_nonpar, aes(x = Year, color = Sex, fill = Sex))
 p.100 <-
   p + geom_line(aes(y = Time.100), size = 1) +
@@ -173,26 +187,26 @@ p.400 <- p + geom_line(aes(y = Time.400), size = 1) +
   alpha = 0.1) + ylab("400m Dash Speed (m/s)") + ggtitle("Plot of regressed \n400m dash speeds against year")
 
 pr.100 <-
-  ggplot(ohmd, aes(
+  ggplot(mapping = aes(
     x = .fitted,
     y = .resid,
     color = Sex,
     fill = Sex
-  )) + geom_point() + xlab("Fitted Values (m/s)") + ylab("Residuals (m/s)") + ggtitle("Plot of residuals against \nfitted values for the 100m dash")
+  )) + geom_point(data = ohmd_m) + geom_point(data = ohmd_w)  + xlab("Fitted Values (m/s)") + ylab("Residuals (m/s)") + ggtitle("Plot of residuals against \nfitted values for the 100m dash")
 pr.200 <-
-  ggplot(thmd, aes(
+  ggplot(mapping = aes(
     x = .fitted,
     y = .resid,
     color = Sex,
     fill = Sex
-  )) + geom_point() + xlab("Fitted Values (m/s)") + ylab("Residuals (m/s)") + ggtitle("Plot of residuals against \nfitted values for the 200m dash")
+  )) + geom_point(data = thmd_m) + geom_point(data = thmd_w) + xlab("Fitted Values (m/s)") + ylab("Residuals (m/s)") + ggtitle("Plot of residuals against \nfitted values for the 200m dash")
 pr.400 <-
-  ggplot(fhmd, aes(
+  ggplot(mapping = aes(
     x = .fitted,
     y = .resid,
     color = Sex,
     fill = Sex
-  )) + geom_point() + xlab("Fitted Values (m/s)") + ylab("Residuals (m/s)") + ggtitle("Plot of residuals against \nfitted values for the 400m dash")
+  )) + geom_point(data = fhmd_m) + geom_point(data = fhmd_w) + xlab("Fitted Values (m/s)") + ylab("Residuals (m/s)") + ggtitle("Plot of residuals against \nfitted values for the 400m dash")
 
 fig1 <- ggarrange(p.100,
                   pr.100,
@@ -204,3 +218,5 @@ fig1 <- ggarrange(p.100,
                   nrow = 3)
 
 annotate_figure(fig1, top = text_grob("Plots for sex as factor (separate regressions)", face = "bold", size = 20))
+
+

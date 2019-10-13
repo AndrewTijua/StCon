@@ -25,7 +25,7 @@
 We consider data on the time taken for men and women to complete the 100, 200, and 400 metre dashes in the Olympics from 1900 to 2016 (it should be noted that data for the women's 100, 200, and 400 metre dash became available in 1928, 1948, and 1964 respectively). 
 
 \section{Statistical Analysis}
-We begin by transforming the data from times to speed using $s = d/t$. This gives us more easily interpreted data, as well as allowing for comparison between dashes. We now perform two linear regression analyses; one assuming that the rate of change of speed is the same for both men and women, and one making no such assumption. 
+We begin by transforming the data from times to speed using $s = d/t$. This gives us more easily interpreted data, as well as allowing for comparison between dashes. We now perform two linear regression analyses; one assuming that the rate of change of speed is the same for both men and women, and one making no such assumption. \\
 
 Table \ref{tab:reg1} shows the regression coefficients of the parallel regression, while Table \ref{tab:regmen} shows the regression for men only. Note that in both cases all parameters are highly significant, and that for the 100m the difference between men and women is about 1 metre per second in the parallel model. Table \ref{tab:regwom} contains the regression coefficients for the women's model.
 
@@ -56,7 +56,7 @@ The observations from these models line up for the 100m dash: the effect of the 
   Year & 0.0102 & 0.0007 & 15.03 & 0.0000 \\ 
    \hline
 \end{tabular}
-\caption{Table of regression coefficients for mens 100m}
+\caption{Table of regression coefficients for men's 100m}
 \label{tab:regmen}
 \end{table}
 
@@ -105,7 +105,7 @@ When we look at the 400m dash things get a good deal more interesting. Tables \r
   Year & 0.0106 & 0.0007 & 14.89 & 0.0000 \\ 
    \hline
 \end{tabular}
-\caption{Table of regression coefficients for mens 400m}
+\caption{Table of regression coefficients for men's 400m}
 \label{tab:400m}
 \end{table}
 
@@ -119,11 +119,26 @@ When we look at the 400m dash things get a good deal more interesting. Tables \r
   Year & 0.0063 & 0.0027 & 2.30 & 0.0401 \\ 
    \hline
 \end{tabular}
-\caption{Table of regression coefficients for womens 400m}
+\caption{Table of regression coefficients for women's 400m}
 \label{tab:400w}
 \end{table}
 
-Note that Table \ref{tab:400w} shows that women are increasing speed at approximately half the rate of men (given in Table \ref{tab:400m}). Overall the rate of increase is closer to that of mens, however that is due to the relative abundance of mens data compared to womens. This difference is clearly illustrated in Figure \ref{fig:npplots}.
+Note that Table \ref{tab:400w} shows that women are increasing speed at approximately half the rate of men (given in Table \ref{tab:400m}). Overall the rate of increase is closer to that of men's, however that is due to the relative abundance of men's data compared to women's. This difference is clearly illustrated in Figure \ref{fig:npplots}. \\
+
+Figure \ref{fig:npplots} actually gives us a good amount of information. The intervals indicated on the regression plots are the prediction intervals. We can see that they never overlap for the 100m and 200m dashes. This means that we can be reasonably confident that men will be faster than women in the period covered.
+
+The intervals do overlap at the beginning of the time period for the 400m dash. This is more due to the lack of data on the women's 400m dash before 1964, which leads to the relative broadness of this interval.\\
+
+Looking at both Figures \ref{fig:npplots} and \ref{fig:pplots} we see that it is reasonable to consider sex as a constant factor (i.e. a constant number subtracted or added depending on sex) for the 100m and 200m, but it is less reasonable for the 400m, as the slope for the women when considered individually is quite a bit shallower. 
+
+Looking at our residual plots we see no pattern in the residuals when compared to the fitted. This means that we have not left out an obvious term in our model (i.e. seasonality). 
+
+
+
+\section{Conclusions}
+
+We conclude that in the Olympics men are faster than women overall. Both sexes are improving speeds at a good rate. This rate is similar for both men and women in the shorter distance races, although men are improving faster in the 400m race when compared to women.
+
 
 \begin{figure}
  
@@ -131,6 +146,14 @@ Note that Table \ref{tab:400w} shows that women are increasing speed at approxim
     \includegraphics[width=\textwidth]{npplots}
  \caption{Plots showing properties of the separate regressions}
 \label{fig:npplots}
+\end{figure}
+
+\begin{figure}
+	
+	\centering
+	\includegraphics[width=\textwidth]{pplots}
+	\caption{Plots showing properties of the parallel regressions}
+	\label{fig:pplots}
 \end{figure}
 
 \end{document}
