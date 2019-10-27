@@ -1,5 +1,13 @@
 \documentclass[11pt]{article}
 
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+
+\usepackage[square,numbers]{natbib}
+\bibliographystyle{plainnat}
+\setcitestyle{authoryear,open={(},close={)}}
+
 \usepackage{amsfonts, amsmath, amssymb, amsthm}
 
 \newtheorem{theorem}{Theorem}[section]
@@ -143,9 +151,11 @@ We will also note that longer distance races have slower speeds than their short
 
 \subsection{An addendum on proper statistical methods, and why transformations are important}
 
-The 2004 paper, `Momentous sprint at the 2156 Olympics?', uses time as our regression variable, rather than speed. This has a few effects, one of which being that it is possible, in the future, for the model to predict a time of 0, or indeed a negative time. This non-physical behaviour is prevented by taking the transform from speed to distance. Eventually we will have people running faster than cars, and eventually the speed of light, but this could be prevented by adding an exponential term, giving an upper limit to human speed, but this would require more in depth analysis than the data we have allows. 
+The \citet{oly2156} paper `Momentous sprint at the 2156 Olympics?', uses time as our regression variable, rather than speed. This has a few effects, one of which being that it is possible, in the future, for the model to predict a time of 0, or indeed a negative time. This non-physical behaviour is prevented by taking the transform from speed to distance. Eventually we will have people running faster than cars, and eventually the speed of light, but this could be prevented by adding an exponential term, giving an upper limit to human speed, but this would require more in depth analysis than the data we have allows. 
 
 It is also easier to understand speed than time taken to cover distance, as well as making races of different distance immediately comparable. 
+
+\bibliography{references}
 
 \begin{figure}
  

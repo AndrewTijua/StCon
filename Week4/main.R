@@ -8,6 +8,7 @@ library(viridis)
 opts <- options()  # save old options
 
 scale_fill_discrete <- scale_fill_viridis_d
+scale_colour_discrete <- scale_colour_viridis_d
 
 OT2016 <- read.table("Olympictrack2016.txt", header = TRUE)
 OT2016$Time.100 <- 100 / OT2016$Time.100
