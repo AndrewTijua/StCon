@@ -1,4 +1,4 @@
-Gas.cons	Age.band	Type	Floor.area.band	Loft.depth	Cavity.wall.ins	New.boiler
+Gas.cons	Age.band	Type	Floor.area	Loft.depth	Cavity.wall	New.boiler
 5000	3	Bungalow	2	Le	N	N
 22000	6	Semi-detached	4	Gr	N	N
 27000	1	Semi-detached	3	Gr	Y	N
