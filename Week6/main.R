@@ -34,7 +34,7 @@ AOV_NEED_dna_mod <- aov(data = NEED_dna, Gas.cons ~ .)
 
 TukeyHSD(AOV_NEED_mod)
 
-summary(NEED_mod)
+summary(NEED_modsqrt)
 summary(NEED_dna_mod)
 
 par(mfrow = c(2, 2))
