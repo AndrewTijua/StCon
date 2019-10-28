@@ -17,6 +17,7 @@ library(corrplot)
 library(polycor)
 library(lsr)
 library(rcompanion)
+library(klaR)
 
 #loadfonts(device = "win")
 
@@ -57,10 +58,12 @@ qqPlot(NEED_mod)
 qqPlot(NEED_modsqrt)
 par(mfrow = c(1, 1))
 
-dp1 <- ggplot(data = NEED) + geom_density(aes(x = Gas.cons, fill = New.boiler), alpha = 0.3) + geom_point(aes(x = Gas.cons, y = 0))# + facet_grid(~New.boiler)
-dp2 <- ggplot(data = NEED) + geom_density(aes(x = Gas.cons, fill = Type), alpha = 0.2) + geom_point(aes(x = Gas.cons, y = 0))# + facet_grid(~Type)
-dp3 <- ggplot(data = NEED) + geom_density(aes(x = Gas.cons, fill = Loft.depth), alpha = 0.2) + geom_point(aes(x = Gas.cons, y = 0))# + facet_grid(~Loft.depth)
-dp4 <- ggplot(data = NEED) + geom_density(aes(x = Gas.cons, fill = Floor.area), alpha = 0.3) + geom_point(aes(x = Gas.cons, y = 0))# + facet_grid(~Floor.area)
+j_w = 1e-6
+j_h = 1e-6
+dp1 <- ggplot(data = NEED) + geom_density(aes(x = Gas.cons, fill = New.boiler), alpha = 0.3) + geom_jitter(aes(x = Gas.cons, y = 0), width = j_w, height = j_h)# + facet_grid(~New.boiler)
+dp2 <- ggplot(data = NEED) + geom_density(aes(x = Gas.cons, fill = Type), alpha = 0.2) + geom_jitter(aes(x = Gas.cons, y = 0), width = j_w, height = j_h)# + facet_grid(~Type)
+dp3 <- ggplot(data = NEED) + geom_density(aes(x = Gas.cons, fill = Loft.depth), alpha = 0.2) + geom_jitter(aes(x = Gas.cons, y = 0), width = j_w, height = j_h)# + facet_grid(~Loft.depth)
+dp4 <- ggplot(data = NEED) + geom_density(aes(x = Gas.cons, fill = Floor.area), alpha = 0.3) + geom_jitter(aes(x = Gas.cons, y = 0), width = j_w, height = j_h)# + facet_grid(~Floor.area)
 ggarrange(dp1, dp2, dp3, dp4)
 
 de = TRUE
@@ -140,7 +143,30 @@ df.chisq.test <- function(data, sim = FALSE) {
     )
     return(out)
     
-  })
+  })[,-1]
 }
 
-df.chisq.test(NEED)
+csq <- df.chisq.test(NEED)
+csq
+
+trainx <- NEED[,c(-1, -3)]
+trainy <- NEED[,3]
+NEED_nb <- train(trainx, trainy, 'nb', trControl = trainControl(method = 'repeatedcv', number = 10, repeats=5))
+NEED_nb
+table(predict(NEED_nb$finalModel,trainx)$class, trainy)
+
+NEED_model_initial <- lm(data = NEED, Gas.cons ~ Age.band + Type + Floor.area)
+NEED_model_initial_sr <- lm(data = NEED, sqrt(Gas.cons) ~ Age.band + Type + Floor.area)
+summary(NEED_model_initial)
+summary(NEED_model_initial_sr)
+par(mfrow = c(2, 2))
+plot(NEED_model_initial)
+plot(NEED_model_initial_sr) #residuals are linearised
+
+
+NEED_model_modifications_sr <- lm(data = NEED, sqrt(Gas.cons) ~ Loft.depth + Cavity.wall + New.boiler) # extremely poor fit
+summary(NEED_model_modifications_sr)
+plot(NEED_model_modifications_sr)
+par(mfrow = c(1, 1))
+
+densityplot(~ Gas.cons | Type, data = NEED)

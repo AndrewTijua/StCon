@@ -34,9 +34,9 @@
 
 We consider data on the gas consumption of dwellings of various types throughout North-East England. We have data on the gas consumption, age of the property, type of property, floor area of property, depth of loft insulation, whether cavity wall insulation is fitted, and whether a new boiler has been installed.
 
-All but the gas consumption data is categorical, meaning that for example we do not know the precise age of the property but rather that it lies in a range of ages. This will impact our analysis and make it somewhat less accurate, but is a common trade-off, as it is easier to collect and store data of this sort. Obviously the type of property must be categorical, for example. 
+All but the gas consumption data is categorical, meaning that for example we do not know the precise age of the property but rather that it lies in a range of ages. This will impact our analysis and make it somewhat less accurate, but is a common trade-off, as it is easier to collect and store data of this sort. Obviously the type of property must be categorical, for example. We must note that the gas consumption has been somewhat severely rounded, leading to it, although truly continuous, having some properties (and difficulties) of a categorical variable. We will handle it as continuous, although we must keep the rounding in mind.
 
-We will note that the gas consumption has been pre-corrected for weather, so this will not be a factor in our analysis. The data has also been selected to be representative of the housing stock, which will allow for us to draw more general conclusions. All of the properties use gas as the main mode of heating.
+We will note that the gas consumption has been pre-corrected for weather, so this will not be a factor in our analysis. The data has also been selected to be representative of the housing stock, which will allow for us to draw more general conclusions. All of the properties use gas as the main mode of heating. 
 
 \section{Statistical Analysis}
 
@@ -52,7 +52,9 @@ We use the R package \texttt{mice} to perform multiple imputation on our data to
 
 There are a few factors that we will account for. The first is that houses are not lines, but (nearly) cubes. We must consider that a house loses heat primarily through its four enclosing walls and its roof. One could think that a four fold increase in gas consumption would be needed to heat a house that is twice larger in length and depth. This means that it would be appropriate to use a square-root transformation on the gas consumption. We must be careful to acknowledge that the age and floor area, although inputted as numerical, are treated as factors. To do otherwise would invalidate the analysis.
 
-The decision to use the square root is validated by looking at the quantile-quantile plots in Figure \ref{fig:qqplots}. We see that the de-trended plot for the transformed response variable gives us far superior results. We will continue with our analysis using the transformed response. We also see clear evidence of a quadratic relationship in the non-transformed plot, further reinforcing our decision.
+The decision to use the square root is validated by looking at the quantile-quantile plots in Figure \ref{fig:qqplots}. We see that the de-trended plot for the transformed response variable gives us far superior results. We will continue with our analysis using the transformed response. We also see clear evidence of a quadratic relationship in the non-transformed plot, further reinforcing our decision. 
+
+
 \section{Conclusions}
 
 \bibliography{references}
@@ -75,37 +77,39 @@ The decision to use the square root is validated by looking at the quantile-quan
 	\label{fig:qqplots}
 \end{figure}
 
-% latex table generated in R 3.6.1 by xtable 1.8-4 package
-% Mon Oct 28 01:24:29 2019
-\begin{table}[ht]
+\section{Tables}
+
+\begin{table}[H]
 	\centering
-	\begin{tabular}{rlllrrr}
+	\begin{tabular}{rllrrr}
 		\hline
-		& X1 & Row & Column & Chi.Square & df & p.value \\ 
+		& Row & Column & Chi.Square & df & p.value \\ 
 		\hline
-		1 & 1 & Gas.cons & Age.band & 704.58 & 635 & 0.03 \\ 
-		2 & 2 & Gas.cons & Type & 1114.13 & 635 & 0.00 \\ 
-		3 & 3 & Gas.cons & Floor.area & 1126.06 & 381 & 0.00 \\ 
-		4 & 4 & Gas.cons & Loft.depth & 118.46 & 127 & 0.69 \\ 
-		5 & 5 & Gas.cons & Cavity.wall & 141.97 & 127 & 0.17 \\ 
-		6 & 6 & Gas.cons & New.boiler & 129.45 & 127 & 0.42 \\ 
-		7 & 7 & Age.band & Type & 649.32 &  25 & 0.00 \\ 
-		8 & 8 & Age.band & Floor.area & 154.38 &  15 & 0.00 \\ 
-		9 & 9 & Age.band & Loft.depth & 16.01 &   5 & 0.01 \\ 
-		10 & 10 & Age.band & Cavity.wall & 91.75 &   5 & 0.00 \\ 
-		11 & 11 & Age.band & New.boiler & 6.81 &   5 & 0.23 \\ 
-		12 & 12 & Type & Floor.area & 1338.01 &  15 & 0.00 \\ 
-		13 & 13 & Type & Loft.depth & 4.63 &   5 & 0.46 \\ 
-		14 & 14 & Type & Cavity.wall & 71.07 &   5 & 0.00 \\ 
-		15 & 15 & Type & New.boiler & 7.94 &   5 & 0.16 \\ 
-		16 & 16 & Floor.area & Loft.depth & 6.46 &   3 & 0.09 \\ 
-		17 & 17 & Floor.area & Cavity.wall & 36.19 &   3 & 0.00 \\ 
-		18 & 18 & Floor.area & New.boiler & 3.29 &   3 & 0.35 \\ 
-		19 & 19 & Loft.depth & Cavity.wall & 1.57 &   1 & 0.21 \\ 
-		20 & 20 & Loft.depth & New.boiler & 1.96 &   1 & 0.16 \\ 
-		21 & 21 & Cavity.wall & New.boiler & 0.47 &   1 & 0.49 \\ 
+		1 & Gas.cons & Age.band & 704.58 & 635 & 0.03 \\ 
+		2 & Gas.cons & Type & 1114.13 & 635 & 0.00 \\ 
+		3 & Gas.cons & Floor.area & 1126.06 & 381 & 0.00 \\ 
+		4 & Gas.cons & Loft.depth & 118.46 & 127 & 0.69 \\ 
+		5 & Gas.cons & Cavity.wall & 141.97 & 127 & 0.17 \\ 
+		6 & Gas.cons & New.boiler & 129.45 & 127 & 0.42 \\ 
+		7 & Age.band & Type & 649.32 &  25 & 0.00 \\ 
+		8 & Age.band & Floor.area & 154.38 &  15 & 0.00 \\ 
+		9 & Age.band & Loft.depth & 16.01 &   5 & 0.01 \\ 
+		10 & Age.band & Cavity.wall & 91.75 &   5 & 0.00 \\ 
+		11 & Age.band & New.boiler & 6.81 &   5 & 0.23 \\ 
+		12 & Type & Floor.area & 1338.01 &  15 & 0.00 \\ 
+		13 & Type & Loft.depth & 4.63 &   5 & 0.46 \\ 
+		14 & Type & Cavity.wall & 71.07 &   5 & 0.00 \\ 
+		15 & Type & New.boiler & 7.94 &   5 & 0.16 \\ 
+		16 & Floor.area & Loft.depth & 6.46 &   3 & 0.09 \\ 
+		17 & Floor.area & Cavity.wall & 36.19 &   3 & 0.00 \\ 
+		18 & Floor.area & New.boiler & 3.29 &   3 & 0.35 \\ 
+		19 & Loft.depth & Cavity.wall & 1.57 &   1 & 0.21 \\ 
+		20 & Loft.depth & New.boiler & 1.96 &   1 & 0.16 \\ 
+		21 & Cavity.wall & New.boiler & 0.47 &   1 & 0.49 \\ 
 		\hline
 	\end{tabular}
+\caption{Table of results from Chi Squared test for independence.}
+\label{tab:chi}
 \end{table}
 
 
