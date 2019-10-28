@@ -42,7 +42,7 @@ We will note that the gas consumption has been pre-corrected for weather, so thi
 
 \subsection{Handling the Missing Data}
 
-First we must check the data for missing values and decide how to continue. An aggregate plot of the data is found in Figure \ref{fig:aggrmiss}. Obviously one must think about the ramifications of this, but we can clearly see that a large proportion of the data for boilers is missing, making it somewhat less useful for our analysis. We assume a completely random missing data mechanism, as this is the most likely given the nature of our data. This means that using predictive mean matching should give us results that are unbiased.
+First we must check the data for missing values and decide how to continue. An aggregate plot of the data is found in Figure \ref{fig:aggrmiss}. Obviously one must think about the ramifications of this, but we can clearly see that a large proportion of the data for boilers is missing, making it somewhat less useful for our analysis. We assume a completely random missing data mechanism, as this is the most likely given the nature of our data. This means that using predictive mean matching should give us results that are unbiased. We will use this going forward.
 
 Another way of dealing with missingness in categorical variables is to make NA a category. This is not what we are going to use, but it is a simple way of getting the analysis to work.
 
@@ -74,6 +74,39 @@ The decision to use the square root is validated by looking at the quantile-quan
 	\caption{Model diagnostic plots for the transformed and non-transformed models}
 	\label{fig:qqplots}
 \end{figure}
+
+% latex table generated in R 3.6.1 by xtable 1.8-4 package
+% Mon Oct 28 01:24:29 2019
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{rlllrrr}
+		\hline
+		& X1 & Row & Column & Chi.Square & df & p.value \\ 
+		\hline
+		1 & 1 & Gas.cons & Age.band & 704.58 & 635 & 0.03 \\ 
+		2 & 2 & Gas.cons & Type & 1114.13 & 635 & 0.00 \\ 
+		3 & 3 & Gas.cons & Floor.area & 1126.06 & 381 & 0.00 \\ 
+		4 & 4 & Gas.cons & Loft.depth & 118.46 & 127 & 0.69 \\ 
+		5 & 5 & Gas.cons & Cavity.wall & 141.97 & 127 & 0.17 \\ 
+		6 & 6 & Gas.cons & New.boiler & 129.45 & 127 & 0.42 \\ 
+		7 & 7 & Age.band & Type & 649.32 &  25 & 0.00 \\ 
+		8 & 8 & Age.band & Floor.area & 154.38 &  15 & 0.00 \\ 
+		9 & 9 & Age.band & Loft.depth & 16.01 &   5 & 0.01 \\ 
+		10 & 10 & Age.band & Cavity.wall & 91.75 &   5 & 0.00 \\ 
+		11 & 11 & Age.band & New.boiler & 6.81 &   5 & 0.23 \\ 
+		12 & 12 & Type & Floor.area & 1338.01 &  15 & 0.00 \\ 
+		13 & 13 & Type & Loft.depth & 4.63 &   5 & 0.46 \\ 
+		14 & 14 & Type & Cavity.wall & 71.07 &   5 & 0.00 \\ 
+		15 & 15 & Type & New.boiler & 7.94 &   5 & 0.16 \\ 
+		16 & 16 & Floor.area & Loft.depth & 6.46 &   3 & 0.09 \\ 
+		17 & 17 & Floor.area & Cavity.wall & 36.19 &   3 & 0.00 \\ 
+		18 & 18 & Floor.area & New.boiler & 3.29 &   3 & 0.35 \\ 
+		19 & 19 & Loft.depth & Cavity.wall & 1.57 &   1 & 0.21 \\ 
+		20 & 20 & Loft.depth & New.boiler & 1.96 &   1 & 0.16 \\ 
+		21 & 21 & Cavity.wall & New.boiler & 0.47 &   1 & 0.49 \\ 
+		\hline
+	\end{tabular}
+\end{table}
 
 
 
