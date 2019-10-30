@@ -83,7 +83,7 @@ sq_qq <-
   stat_qq_band(distribution = di,
                detrend = de,
                qprobs = probs) +
-  labs(x = "Theoretical Quantiles", y = "Sample Quantiles", title = "Detrended Q-Q Plot for transformed response")
+  labs(x = "Theoretical Quantiles", y = "Sample Quantiles", title = "Detrended Q-Q Plot for \ntransformed response")
 l_qq <-
   ggplot(NEED, aes(sample = (Gas.cons))) +
   stat_qq_point(distribution = di,
@@ -174,4 +174,4 @@ summary(NEED_model_modifications_sr)
 plot(NEED_model_modifications_sr)
 par(mfrow = c(1, 1))
 
-densityplot(~ Gas.cons | Type, data = NEED)
+#densityplot(~ Gas.cons | Type, data = NEED)
