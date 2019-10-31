@@ -37,7 +37,7 @@ We consider data on the gas consumption of dwellings of various types throughout
 
 All but the gas consumption data is categorical, meaning that for example we do not know the precise age of the property but rather that it lies in a range of ages. This will impact our analysis and make it somewhat less accurate, but is a common trade-off, as it is easier to collect and store data of this sort. Obviously the type of property must be categorical, for example. We must note that the gas consumption has been somewhat severely rounded, leading to it, although truly continuous, having some properties (and difficulties) of a categorical variable. We will handle it as continuous, although we must keep the rounding in mind.
 
-We will note that the gas consumption has been pre-corrected for weather, so this will not be a factor in our analysis. The data has also been selected to be representative of the housing stock, which will allow for us to draw more general conclusions. All of the properties use gas as the main mode of heating. 
+We will note that the gas consumption has been pre-corrected for weather, so this will not be a factor in our analysis. The data has also been selected to be representative of the housing stock, which will allow for us to draw more general conclusions. All of the properties use gas as the main mode of heating. When we refer to a `unit' of gas we mean 1 kWh per year.
 
 \section{Statistical Analysis}
 
@@ -47,38 +47,43 @@ First we must check the data for missing values and decide how to continue. An a
 
 Another way of dealing with missingness in categorical variables is to make NA a category. This is not what we are going to use, but it is a simple way of getting the analysis to work.
 
-We use the R package \texttt{mice} to perform multiple imputation on our data to obtain a full dataset. We will carefully consider the differences between our complete case analysis and our analysis of the imputed data and attempt to explain any discrepancies. 
+We use the R package \texttt{mice} to perform multiple imputation on our data to obtain a full dataset. We will carefully consider the differences between our complete case analysis and our analysis of the imputed data and attempt to explain any discrepancies. The implementation of predictive mean matching that is used selects randomly from the 5 nearest neighbours, so we fix our random seed to get repeatable results.
 
 \subsection{Initial Analysis}
 
 There are a few factors that we will account for. The first is that houses are not lines, but (nearly) cubes. We must consider that a house loses heat primarily through its four enclosing walls and its roof. One could think that a four fold increase in gas consumption would be needed to heat a house that is twice larger in length and depth. This means that it would be appropriate to use a square-root transformation on the gas consumption. We must be careful to acknowledge that the age and floor area, although inputted as numerical, are treated as factors. To do otherwise would invalidate the analysis.
 
-The decision to use the square root is validated by looking at the quantile-quantile plots in Figure \ref{fig:qqplots}. We see that the de-trended plot for the transformed response variable gives us far superior results. We will continue with our analysis using the transformed response. We also see clear evidence of a quadratic relationship in the non-transformed plot, further reinforcing our decision. 
+The decision to use the square root is validated by looking at the quantile-quantile plots in Figure \ref{fig:qqplots}. We see that the de-trended plot for the transformed response variable gives us far superior results. We will continue with our analysis using the transformed response. We also see clear evidence of a quadratic relationship in the non-transformed plot, further reinforcing our decision. Hence much of our analysis will be of `root units', which we square to get back our initial units of kWh.
+
+Looking at the data given in Figure \ref{fig:datavis} we see that the median gas consumption is 13000 units. 
 
 \subsection{Model Comparison and Selection}
-To generate the full model we must first look at the independence of terms in the data. We do this using the $\chi^2$ test, the results of which are given in Table \ref{tab:chi}. We see that many of the variables are interdependent, which will influence our results. We see that the age, type, and floor area of a property are highly related, which is what we realistically expected. We regress the square root of the gas consumption on all of the predictor variables to obtain our full model. The diagnotic plots are given in Figure \ref{fig:fmdiag}. These plots are perfectly sufficient, the leverages are low so our model is quite stable. 
+To generate the full model we must first look at the independence of terms in the data. We do this using the $\chi^2$ test, the results of which are given in Table \ref{tab:chi}. We see that many of the variables are interdependent, which will influence our results. We see that the age, type, and floor area of a property are highly related, which is what we realistically expected. We regress the square root of the gas consumption on all of the predictor variables to obtain our full model. The diagnostic plots are given in Figure \ref{fig:fmdiag}. These plots are perfectly sufficient, the leverages are low so our model is quite stable. 
 
-We will now compare the full model to two submodels. The submodels regress gas consumption on the base property (age, type, floor area) and on modifications to the property (loft insulation, cavity wall insulation, new boiler) respectively. The diagnostic plots are given in Figure \ref{fig:smdiag}. The diagnostic plots show that both are valid models which give similar results to the initial model. We compare them to the initial model using an ANOVA test. We see that the modifications model is significantly different from the initial model, so the base properties of the property have significant effects. However the property model is different, but only at the five percent level. We compare the residual sum of squares and see that the full model has an RSS of 1254843, the property model has an RSS of 1262560, and that the modification model has an RSS of 1902782. We see that the modifications to the property have a significantly lesser effect on the consumption than the property properties.
+We will now compare the full model to two sub-models. The sub-models regress gas consumption on the base property (age, type, floor area) and on modifications to the property (loft insulation, cavity wall insulation, new boiler) respectively. The diagnostic plots are given in Figure \ref{fig:smdiag}. The diagnostic plots show that both are valid models which give similar results to the initial model. We compare them to the initial model using an ANOVA test. We see that the modifications model is significantly different from the initial model, so the base properties of the property have significant effects. The property model is not different at the five percent level, so we fail to reject the hypothesis that both the property model and the full model explain the data adequately. We compare the residual sum of squares and see that the full model has an RSS of 1244518, the property model has an RSS of 1248346, and that the modification model has an RSS of 1880124. We see that the modifications to the property have a significantly lesser effect on the consumption than the property properties.
 
-We choose to use the full model for our analysis as both of the sub models do not explain the data sufficiently. The regression coefficents are given in Table \ref{tab:fulmo}.
+We choose to use the full model for our analysis as we wish to see the effects of the modifications on the property, as these are measures that can be taken after a property is constructed. The regression coefficients are given in Table \ref{tab:fulmo}.
 
-\subsection{Discussion of Results}
+\section{Discussion of Results}
 
-We are discussing the effect of the different variables on the square root of the gas consumption. The `base' results are for a Bungalow in age band 1, in floor area band 1, with loft insulation greater than 150mm, without cavity walls, and without a new boiler. The predicted square root of consumption for this property is 102.3. 
+We are discussing the effect of the different variables on the square root of the gas consumption. The `base' results are for a Bungalow in age band 1, in floor area band 1, with loft insulation greater than 150mm, without cavity walls, and without a new boiler. The predicted square root of consumption for this property is 103.7. 
 
-\subsubsection{Effect of Age}
-We see that age has less of an effect than might be expected. The first four age bands have minimal effect. The fifth and the sixth age bands have more significant differences, with a decrease of 7.94 and 15.6 repectively. This means that new builds have decreased gas consumption. This may be due to the types of property built in new builds, as in \ref{tab:chi} we see that they are not independent.
+\subsection{Effect of Age}
+We see that age has less of an effect than might be expected. The first four age bands have minimal effect. The fifth and the sixth age bands have more significant differences, with a decrease on average of 7.84 and 13.76 respectively. This means that new builds have decreased gas consumption. This may be due to the types of property built in new builds, as in \ref{tab:chi} we see that they are not independent.
 
-\subsubsection{Effect of Type}
-We see that the type of property is very significant in determining the gas consumption. Detached houses have an increased root gas consumption compared to bungalows, consuming 12.2 root units more. Semi detached consume only very slightly more, to the point that it is not significant (it is less than the standard error of the estimate). Terraced and end of terrace houses consume less. Flats consume significantly less, with 21.5 less root units, corresponding to 461 units less. 
+\subsection{Effect of Type}
+We see that the type of property is very significant in determining the gas consumption. Detached houses have an increased root gas consumption compared to bungalows, consuming 12.7 root units more. Semi detached consume only very slightly more, to the point that it is not significant (it is less than the standard error of the estimate). Terraced and end of terrace houses consume less. Flats consume significantly less, with 22.9 less root units on average, corresponding to 525 units less on average. 
 
-\subsubsection{Effect of Floor Area}
-We see that floor area has a significant effect on the gas consumption. All of them are significanly different from each other. The largest floor area consumes 52.43 root units, or 2749 units more than the smallest floor area. This is also not independent of the type of property, so we must know that changing one should have an effect on the other (ie a property with a large floor area is less likely to be a flat than detached).
+\subsection{Effect of Floor Area}
+We see that floor area has a significant effect on the gas consumption. All of them are significantly different from each other. The largest floor area consumes on average 52.56 root units, or 2762 units on average more than the smallest floor area. This is also not independent of the type of property, so we must know that changing one should have an effect on the other (ie a property with a large floor area is less likely to be a flat than detached).
 
-\subsubsection{Effects of Modifications to The Property}
+\subsection{Effects of Modifications to The Property}
+These effects are smaller, so will be discussed in conjunction. First we note that we see in Table \ref{tab:chi} that all of the modifications are largely independent of each other. This meshes with what we expect. We see that a new boiler decreases root gas consumption by 2.78, corresponding to an average decrease in consumption of 7.71 units. Adding cavity wall insulation has no appreciable average effect on gas consumption. Adding loft insulation above 150mm decreases root gas consumption on average by 1.98 units, corresponding to an average decrease of 3.90 units of gas consumption. 
+
+
 \section{Conclusions}
 
-\bibliography{references}
+%\bibliography{references}
 
 \appendix
 
@@ -86,15 +91,23 @@ We see that floor area has a significant effect on the gas consumption. All of t
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{aggre_missplot}
+	\includegraphics[width=0.7\textwidth]{aggr_missplot}
 	\caption{Aggregate plot of missingness in our data}
 	\label{fig:aggrmiss}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
+	\includegraphics[width=0.7\textwidth]{datavis}
+	\caption{Visualisation of data relating to gas consumption}
+	\label{fig:datavis}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
 	\includegraphics[width=0.7\textwidth]{qqplots}
-	\caption{Model diagnostic plots for the transformed and non-transformed models}
+	\caption{Model Q-Q plots for the transformed and non-transformed models}
 	\label{fig:qqplots}
 \end{figure}
 
@@ -109,38 +122,38 @@ We see that floor area has a significant effect on the gas consumption. All of t
 	\centering
 	\includegraphics[width=0.4\textwidth]{diag_modif}
 	\includegraphics[width=0.4\textwidth]{diag_prop}
-	\caption{Model diagnostic plots for our sub models}
+	\caption{Model diagnostic plots for our sub-models}
 	\label{fig:smdiag}
 \end{figure}
 
 \section{Tables}
 
-\begin{table}[H]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{rllrrr}
 		\hline
 		& Row & Column & Chi.Square & df & p.value \\ 
 		\hline
-		1 & Gas.cons & Age.band & 704.58 & 635 & 0.03 \\ 
-		2 & Gas.cons & Type & 1114.13 & 635 & 0.00 \\ 
-		3 & Gas.cons & Floor.area & 1126.06 & 381 & 0.00 \\ 
-		4 & Gas.cons & Loft.depth & 118.46 & 127 & 0.69 \\ 
-		5 & Gas.cons & Cavity.wall & 141.97 & 127 & 0.17 \\ 
-		6 & Gas.cons & New.boiler & 129.45 & 127 & 0.42 \\ 
+		1 & Gas.cons & Age.band & 702.97 & 635 & 0.03 \\ 
+		2 & Gas.cons & Type & 1129.94 & 635 & 0.00 \\ 
+		3 & Gas.cons & Floor.area & 1102.89 & 381 & 0.00 \\ 
+		4 & Gas.cons & Loft.depth & 124.28 & 127 & 0.55 \\ 
+		5 & Gas.cons & Cavity.wall & 145.82 & 127 & 0.12 \\ 
+		6 & Gas.cons & New.boiler & 134.34 & 127 & 0.31 \\ 
 		7 & Age.band & Type & 649.32 &  25 & 0.00 \\ 
 		8 & Age.band & Floor.area & 154.38 &  15 & 0.00 \\ 
-		9 & Age.band & Loft.depth & 16.01 &   5 & 0.01 \\ 
+		9 & Age.band & Loft.depth & 17.37 &   5 & 0.00 \\ 
 		10 & Age.band & Cavity.wall & 91.75 &   5 & 0.00 \\ 
 		11 & Age.band & New.boiler & 6.81 &   5 & 0.23 \\ 
 		12 & Type & Floor.area & 1338.01 &  15 & 0.00 \\ 
-		13 & Type & Loft.depth & 4.63 &   5 & 0.46 \\ 
+		13 & Type & Loft.depth & 2.86 &   5 & 0.72 \\ 
 		14 & Type & Cavity.wall & 71.07 &   5 & 0.00 \\ 
 		15 & Type & New.boiler & 7.94 &   5 & 0.16 \\ 
-		16 & Floor.area & Loft.depth & 6.46 &   3 & 0.09 \\ 
+		16 & Floor.area & Loft.depth & 0.71 &   3 & 0.87 \\ 
 		17 & Floor.area & Cavity.wall & 36.19 &   3 & 0.00 \\ 
 		18 & Floor.area & New.boiler & 3.29 &   3 & 0.35 \\ 
-		19 & Loft.depth & Cavity.wall & 1.57 &   1 & 0.21 \\ 
-		20 & Loft.depth & New.boiler & 1.96 &   1 & 0.16 \\ 
+		19 & Loft.depth & Cavity.wall & 0.17 &   1 & 0.68 \\ 
+		20 & Loft.depth & New.boiler & 3.06 &   1 & 0.08 \\ 
 		21 & Cavity.wall & New.boiler & 0.47 &   1 & 0.49 \\ 
 		\hline
 	\end{tabular}
@@ -149,30 +162,30 @@ We see that floor area has a significant effect on the gas consumption. All of t
 \end{table}
 
 \begin{table}[ht]
-\centering
-\begin{tabular}{rrrrr}
-  \hline
- & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
-  \hline
-(Intercept) & 102.2815 & 4.0866 & 25.03 & 0.0000 \\ 
-  Age.band2 & -0.9813 & 2.3843 & -0.41 & 0.6807 \\ 
-  Age.band3 & -4.2592 & 2.2810 & -1.87 & 0.0620 \\ 
-  Age.band4 & -4.6301 & 2.3540 & -1.97 & 0.0493 \\ 
-  Age.band5 & -7.9362 & 2.8934 & -2.74 & 0.0062 \\ 
-  Age.band6 & -15.5629 & 2.9704 & -5.24 & 0.0000 \\ 
-  TypeDetached & 12.1527 & 2.8993 & 4.19 & 0.0000 \\ 
-  TypeEnd-terrace & -7.0452 & 2.7567 & -2.56 & 0.0107 \\ 
-  TypeFlat & -21.4717 & 3.1333 & -6.85 & 0.0000 \\ 
-  TypeMid-terrace & -11.7961 & 2.3468 & -5.03 & 0.0000 \\ 
-  TypeSemi-detached & 0.4266 & 2.0914 & 0.20 & 0.8384 \\ 
-  Floor.area2 & 13.0348 & 3.3290 & 3.92 & 0.0001 \\ 
-  Floor.area3 & 32.3176 & 3.6443 & 8.87 & 0.0000 \\ 
-  Floor.area4 & 52.4287 & 4.5895 & 11.42 & 0.0000 \\ 
-  Loft.depthLe & 1.4559 & 1.9928 & 0.73 & 0.4651 \\ 
-  Cavity.wallY & -0.2868 & 1.3193 & -0.22 & 0.8279 \\ 
-  New.boilerY & -2.2588 & 1.3441 & -1.68 & 0.0930 \\ 
-   \hline
-\end{tabular}
+	\centering
+	\begin{tabular}{rrrrr}
+		\hline
+		& Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+		\hline
+		(Intercept) & 103.6752 & 4.0591 & 25.54 & 0.0000 \\ 
+		Age.band2 & -0.9575 & 2.3684 & -0.40 & 0.6861 \\ 
+		Age.band3 & -3.5850 & 2.2675 & -1.58 & 0.1141 \\ 
+		Age.band4 & -4.8354 & 2.3402 & -2.07 & 0.0389 \\ 
+		Age.band5 & -7.8489 & 2.8745 & -2.73 & 0.0064 \\ 
+		Age.band6 & -13.7566 & 2.9509 & -4.66 & 0.0000 \\ 
+		TypeDetached & 12.6560 & 2.8794 & 4.40 & 0.0000 \\ 
+		TypeEnd-terrace & -5.9697 & 2.7361 & -2.18 & 0.0293 \\ 
+		TypeFlat & -22.9190 & 3.1123 & -7.36 & 0.0000 \\ 
+		TypeMid-terrace & -11.7040 & 2.3311 & -5.02 & 0.0000 \\ 
+		TypeSemi-detached & 0.7507 & 2.0773 & 0.36 & 0.7179 \\ 
+		Floor.area2 & 11.3807 & 3.3056 & 3.44 & 0.0006 \\ 
+		Floor.area3 & 30.2742 & 3.6198 & 8.36 & 0.0000 \\ 
+		Floor.area4 & 52.5568 & 4.5580 & 11.53 & 0.0000 \\ 
+		Loft.depthLe & 1.9758 & 1.9761 & 1.00 & 0.3175 \\ 
+		Cavity.wallY & -0.0906 & 1.3102 & -0.07 & 0.9449 \\ 
+		New.boilerY & -2.7758 & 1.3360 & -2.08 & 0.0379 \\ 
+		\hline
+	\end{tabular}
 \caption{Table of regression coefficients for the full model.}
 \label{tab:fulmo}
 \end{table}
