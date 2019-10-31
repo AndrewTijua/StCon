@@ -1,4 +1,5 @@
 library(plyr)
+library(dplyr)
 library(caret)
 library(tidyverse)
 library(ggplot2)
@@ -18,6 +19,10 @@ library(polycor)
 library(lsr)
 library(rcompanion)
 library(klaR)
+library(vctrs)
+library(lindia)
+
+set.seed(1)
 
 #loadfonts(device = "win")
 
@@ -162,6 +167,8 @@ table(predict(NEED_nb$finalModel,trainx)$class, trainy)
 
 NEED_model_initial <- lm(data = NEED, Gas.cons ~ Age.band + Type + Floor.area)
 NEED_model_initial_sr <- lm(data = NEED, sqrt(Gas.cons) ~ Age.band + Type + Floor.area)
+AOV_model_initial_sr <- aov(data = NEED, sqrt(Gas.cons) ~ Age.band + Type + Floor.area)
+
 summary(NEED_model_initial)
 summary(NEED_model_initial_sr)
 par(mfrow = c(2, 2))
@@ -170,8 +177,47 @@ plot(NEED_model_initial_sr) #residuals are linearised
 
 
 NEED_model_modifications_sr <- lm(data = NEED, sqrt(Gas.cons) ~ Loft.depth + Cavity.wall + New.boiler) # extremely poor fit
+AOV_model_modifications_sr <- aov(data = NEED, sqrt(Gas.cons) ~ Loft.depth + Cavity.wall + New.boiler)
 summary(NEED_model_modifications_sr)
 plot(NEED_model_modifications_sr)
 par(mfrow = c(1, 1))
 
+
+
 #densityplot(~ Gas.cons | Type, data = NEED)
+
+ggplot_lm <- function(model, probs, di = "norm", de = TRUE){
+  data <- model$model
+  
+  p1 <- ggplot(mapping = aes(x = .fitted,
+                             y = .resid)) +
+    geom_point(data = model) +
+    xlab("Fitted Values") +
+    ylab("Residuals") +
+    ggtitle("Residuals vs Fitted")
+  p2 <- ggplot(data, aes(sample = pull(data, 1))) + 
+    stat_qq_point(distribution = di,
+                  detrend = de,
+                  qprobs = probs) +
+    stat_qq_line(distribution = di,
+                 detrend = de,
+                 qprobs = probs) +
+    stat_qq_band(distribution = di,
+                 detrend = de,
+                 qprobs = probs) +
+    labs(x = "Predicted", y = "Residual", title = "Detrended Q-Q Plot for response")
+  p3 <- gg_resleverage(model)
+  p4 <- gg_scalelocation(model)
+  return(ggarrange(p1,p2,p4,p3))
+}
+
+gg <- ggplot_lm(NEED_modsqrt, probs = probs)
+gg
+
+gg1 <- ggplot_lm(NEED_model_initial_sr, probs = probs)
+annotate_figure(gg1, top = text_grob("Diagnostic for base\nproperty model", size = 14, face = 'bold'))
+gg2 <- ggplot_lm(NEED_model_modifications_sr, probs = probs)
+annotate_figure(gg2, top = text_grob("Diagnostic for \nmodification model", size = 14, face = 'bold'))
+
+anova(AOV_NEED_modsqrt, AOV_model_initial_sr)
+anova(AOV_NEED_modsqrt, AOV_model_modifications_sr)

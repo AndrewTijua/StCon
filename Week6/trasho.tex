@@ -1,8 +1,9 @@
-\documentclass[11pt]{article}
+\documentclass[9pt]{extarticle}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{hyperref}
+\usepackage{extsizes}
 
 \usepackage[square,numbers]{natbib}
 \bibliographystyle{plainnat}
@@ -54,7 +55,27 @@ There are a few factors that we will account for. The first is that houses are n
 
 The decision to use the square root is validated by looking at the quantile-quantile plots in Figure \ref{fig:qqplots}. We see that the de-trended plot for the transformed response variable gives us far superior results. We will continue with our analysis using the transformed response. We also see clear evidence of a quadratic relationship in the non-transformed plot, further reinforcing our decision. 
 
+\subsection{Model Comparison and Selection}
+To generate the full model we must first look at the independence of terms in the data. We do this using the $\chi^2$ test, the results of which are given in Table \ref{tab:chi}. We see that many of the variables are interdependent, which will influence our results. We see that the age, type, and floor area of a property are highly related, which is what we realistically expected. We regress the square root of the gas consumption on all of the predictor variables to obtain our full model. The diagnotic plots are given in Figure \ref{fig:fmdiag}. These plots are perfectly sufficient, the leverages are low so our model is quite stable. 
 
+We will now compare the full model to two submodels. The submodels regress gas consumption on the base property (age, type, floor area) and on modifications to the property (loft insulation, cavity wall insulation, new boiler) respectively. The diagnostic plots are given in Figure \ref{fig:smdiag}. The diagnostic plots show that both are valid models which give similar results to the initial model. We compare them to the initial model using an ANOVA test. We see that the modifications model is significantly different from the initial model, so the base properties of the property have significant effects. However the property model is different, but only at the five percent level. We compare the residual sum of squares and see that the full model has an RSS of 1254843, the property model has an RSS of 1262560, and that the modification model has an RSS of 1902782. We see that the modifications to the property have a significantly lesser effect on the consumption than the property properties.
+
+We choose to use the full model for our analysis as both of the sub models do not explain the data sufficiently. The regression coefficents are given in Table \ref{tab:fulmo}.
+
+\subsection{Discussion of Results}
+
+We are discussing the effect of the different variables on the square root of the gas consumption. The `base' results are for a Bungalow in age band 1, in floor area band 1, with loft insulation greater than 150mm, without cavity walls, and without a new boiler. The predicted square root of consumption for this property is 102.3. 
+
+\subsubsection{Effect of Age}
+We see that age has less of an effect than might be expected. The first four age bands have minimal effect. The fifth and the sixth age bands have more significant differences, with a decrease of 7.94 and 15.6 repectively. This means that new builds have decreased gas consumption. This may be due to the types of property built in new builds, as in \ref{tab:chi} we see that they are not independent.
+
+\subsubsection{Effect of Type}
+We see that the type of property is very significant in determining the gas consumption. Detached houses have an increased root gas consumption compared to bungalows, consuming 12.2 root units more. Semi detached consume only very slightly more, to the point that it is not significant (it is less than the standard error of the estimate). Terraced and end of terrace houses consume less. Flats consume significantly less, with 21.5 less root units, corresponding to 461 units less. 
+
+\subsubsection{Effect of Floor Area}
+We see that floor area has a significant effect on the gas consumption. All of them are significanly different from each other. The largest floor area consumes 52.43 root units, or 2749 units more than the smallest floor area. This is also not independent of the type of property, so we must know that changing one should have an effect on the other (ie a property with a large floor area is less likely to be a flat than detached).
+
+\subsubsection{Effects of Modifications to The Property}
 \section{Conclusions}
 
 \bibliography{references}
@@ -75,6 +96,21 @@ The decision to use the square root is validated by looking at the quantile-quan
 	\includegraphics[width=0.7\textwidth]{qqplots}
 	\caption{Model diagnostic plots for the transformed and non-transformed models}
 	\label{fig:qqplots}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{fm_diag}
+	\caption{Model diagnostic plots for our full model}
+	\label{fig:fmdiag}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{diag_modif}
+	\includegraphics[width=0.4\textwidth]{diag_prop}
+	\caption{Model diagnostic plots for our sub models}
+	\label{fig:smdiag}
 \end{figure}
 
 \section{Tables}
@@ -110,6 +146,35 @@ The decision to use the square root is validated by looking at the quantile-quan
 	\end{tabular}
 \caption{Table of results from Chi Squared test for independence.}
 \label{tab:chi}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & 102.2815 & 4.0866 & 25.03 & 0.0000 \\ 
+  Age.band2 & -0.9813 & 2.3843 & -0.41 & 0.6807 \\ 
+  Age.band3 & -4.2592 & 2.2810 & -1.87 & 0.0620 \\ 
+  Age.band4 & -4.6301 & 2.3540 & -1.97 & 0.0493 \\ 
+  Age.band5 & -7.9362 & 2.8934 & -2.74 & 0.0062 \\ 
+  Age.band6 & -15.5629 & 2.9704 & -5.24 & 0.0000 \\ 
+  TypeDetached & 12.1527 & 2.8993 & 4.19 & 0.0000 \\ 
+  TypeEnd-terrace & -7.0452 & 2.7567 & -2.56 & 0.0107 \\ 
+  TypeFlat & -21.4717 & 3.1333 & -6.85 & 0.0000 \\ 
+  TypeMid-terrace & -11.7961 & 2.3468 & -5.03 & 0.0000 \\ 
+  TypeSemi-detached & 0.4266 & 2.0914 & 0.20 & 0.8384 \\ 
+  Floor.area2 & 13.0348 & 3.3290 & 3.92 & 0.0001 \\ 
+  Floor.area3 & 32.3176 & 3.6443 & 8.87 & 0.0000 \\ 
+  Floor.area4 & 52.4287 & 4.5895 & 11.42 & 0.0000 \\ 
+  Loft.depthLe & 1.4559 & 1.9928 & 0.73 & 0.4651 \\ 
+  Cavity.wallY & -0.2868 & 1.3193 & -0.22 & 0.8279 \\ 
+  New.boilerY & -2.2588 & 1.3441 & -1.68 & 0.0930 \\ 
+   \hline
+\end{tabular}
+\caption{Table of regression coefficients for the full model.}
+\label{tab:fulmo}
 \end{table}
 
 
