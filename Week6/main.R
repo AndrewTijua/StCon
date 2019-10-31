@@ -132,37 +132,37 @@ qts = c(0.5)
 
 p1 <-
   ggplot(data = NEED, aes(x = Age.band, y = Gas.cons, fill = Age.band)) + geom_violin(
-    draw_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    draw_quantiles = qts,
     size = 0.5,
     alpha = 0.5
   ) + labs(x = "Age Band", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p2 <-
   ggplot(data = NEED, aes(x = Type, y = Gas.cons, fill = Type)) + geom_violin(
-    draw_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    draw_quantiles = qts,
     size = 0.5,
     alpha = 0.5
   ) + labs(x = "Type of Property", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p3 <-
   ggplot(data = NEED, aes(x = Floor.area, y = Gas.cons, fill = Floor.area)) + geom_violin(
-    draw_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    draw_quantiles = qts,
     size = 0.5,
     alpha = 0.5
   ) + labs(x = "Floor Area Band", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p4 <-
   ggplot(data = NEED, aes(x = New.boiler, y = Gas.cons, fill = New.boiler)) + geom_violin(
-    draw_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    draw_quantiles = qts,
     size = 0.5,
     alpha = 0.5
   ) + labs(x = "New Boiler", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p5 <-
   ggplot(data = NEED, aes(x = Cavity.wall, y = Gas.cons, fill = Cavity.wall)) + geom_violin(
-    draw_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    draw_quantiles = qts,
     size = 0.5,
     alpha = 0.5
   ) + labs(x = "Cavity Wall", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p6 <-
   ggplot(data = NEED, aes(x = Loft.depth, y = Gas.cons, fill = Loft.depth)) + geom_violin(
-    draw_quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+    draw_quantiles = qts,
     size = 0.5,
     alpha = 0.5
   ) + labs(x = "Loft Insulation Depth", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
