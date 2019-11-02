@@ -210,20 +210,6 @@ df.chisq.test <- function(data, sim = FALSE) {
 csq <- df.chisq.test(NEED)
 csq
 
-trainx <- NEED[, c(-1,-3)]
-trainy <- NEED[, 3]
-NEED_nb <-
-  train(trainx,
-        trainy,
-        'nb',
-        trControl = trainControl(
-          method = 'repeatedcv',
-          number = 10,
-          repeats = 5
-        ))
-NEED_nb
-table(predict(NEED_nb$finalModel, trainx)$class, trainy)
-
 NEED_model_initial <-
   lm(data = NEED, Gas.cons ~ Age.band + Type + Floor.area)
 NEED_model_initial_sr <-
@@ -272,7 +258,7 @@ ggplot_lm <- function(model,
     stat_qq_band(distribution = di,
                  detrend = de,
                  qprobs = probs) +
-    labs(x = "Theoretical", y = "Standardised \nResidual", title = "Detrended Q-Q Plot for response")
+    labs(x = "Theoretical", y = "Standardised \nResiduals", title = "Detrended Q-Q Plot for response")
   p3 <- gg_resleverage(model)
   p4 <- gg_scalelocation(model)
   return(ggarrange(p1, p2, p4, p3))

@@ -63,13 +63,13 @@ Looking at the data given in Figure \ref{fig:datavis} we see that the median gas
 \subsection{Model Comparison and Selection}
 To generate the full model we must first look at the independence of terms in the data. We do this using the $\chi^2$ test, the results of which are given in Table \ref{tab:chi}. We see that many of the variables are interdependent, which will influence our results. We see that the age, type, and floor area of a property are highly related, which is what we realistically expected. We regress the square root of the gas consumption on all of the predictor variables to obtain our full model. The diagnostic plots are given in Figure \ref{fig:fmdiag}. These plots are perfectly sufficient, the leverages are low so our model is quite stable. 
 
-We will now compare the full model to two sub-models. The sub-models regress gas consumption on the base property (age, type, floor area) and on modifications to the property (loft insulation, cavity wall insulation, new boiler) respectively. The diagnostic plots are given in Figure \ref{fig:smdiag}. The diagnostic plots show that both are valid models which give similar results to the initial model. We compare them to the initial model using an ANOVA test. We see that the modifications model is significantly different from the initial model, so the base properties of the property have significant effects. The property model is not different at the five percent level, so we fail to reject the hypothesis that both the property model and the full model explain the data adequately. We compare the residual sum of squares and see that the full model has an RSS of 1244518, the property model has an RSS of 1248346, and that the modification model has an RSS of 1880124. We see that the modifications to the property have a significantly lesser effect on the consumption than the property properties.
+We will now compare the full model to two sub-models. The sub-models regress gas consumption on the base property (age, type, floor area) and on modifications to the property (loft insulation, cavity wall insulation, new boiler) respectively. The diagnostic plots are given in Figure \ref{fig:smdiag}. The diagnostic plots show that both are valid models which give similar results to the initial model. We compare them to the initial model using an ANOVA test. We see that the modifications model is significantly different from the initial model, so the base properties of the property have significant effects. The property model is not different at the five percent level, so we fail to reject the hypothesis that both the property model and the full model explain the data adequately. We compare the residual sum of squares (lower is better) and see that the full model has an RSS of 1244518, the property model has an RSS of 1248346, and that the modification model has an RSS of 1880124. We see that the modifications to the property have a significantly lesser effect on the consumption than the properties inherent to the property (type, floor area, age).
 
-We choose to use the full model for our analysis as we wish to see the effects of the modifications on the property, as these are measures that can be taken after a property is constructed. The regression coefficients are given in Table \ref{tab:fulmo}.
+We choose to use the full model for our analysis as we wish to see the effects of the modifications on the property, as these are measures that can be taken after a property is constructed. The regression coefficients are given in Table \ref{tab:fulmo}. These are the expected difference in root gas consumption from the `baseline' of a property with given characteristics.
 
 \section{Discussion of Results}
 
-We are discussing the effect of the different variables on the square root of the gas consumption. The `base' results are for a Bungalow in age band 1, in floor area band 1, with loft insulation greater than 150mm, without cavity walls, and without a new boiler. The predicted square root of consumption for this property is 103.7. 
+We are discussing the effect of the different variables on the square root of the gas consumption. The `baseline' results are for a Bungalow in age band 1, in floor area band 1, with loft insulation greater than 150mm, without cavity walls, and without a new boiler. The predicted square root of consumption for this property is 103.7. If for example we had a semi-detached house, with a new boiler, no cavity walls, more than 150mm of loft insulation, with floor area 3, in age band 3 then our new predicted root consumption would be 103.68 - 3.58 (age) + 0.75 (semi-detached) + 30.27 (floor area) - 2.78 (New boiler) = 128.34 root units.
 
 \subsection{Effect of Age}
 We see that age has less of an effect than might be expected. The first four age bands have minimal effect. The fifth and the sixth age bands have more significant differences, with a decrease on average of 7.84 and 13.76 respectively. This means that new builds have decreased gas consumption. This may be due to the types of property built in new builds, as in \ref{tab:chi} we see that they are not independent.
@@ -81,7 +81,7 @@ We see that the type of property is very significant in determining the gas cons
 We see that floor area has a significant effect on the gas consumption. All of them are significantly different from each other. The largest floor area consumes on average 52.56 root units, or 2762 units on average more than the smallest floor area. This is also not independent of the type of property, so we must know that changing one should have an effect on the other (ie a property with a large floor area is less likely to be a flat than detached).
 
 \subsection{Effects of Modifications to The Property}
-These effects are smaller, so will be discussed in conjunction. First we note that we see in Table \ref{tab:chi} that all of the modifications are largely independent of each other. This meshes with what we expect. We see that a new boiler decreases root gas consumption by 2.78, corresponding to an average decrease in consumption of 7.71 units. Adding cavity wall insulation has no appreciable average effect on gas consumption. Adding loft insulation above 150mm decreases root gas consumption on average by 1.98 units, corresponding to an average decrease of 3.90 units of gas consumption. 
+These effects are smaller, so will be discussed in conjunction. First we note that we see in Table \ref{tab:chi} that all of the modifications are largely independent of each other. This meshes with what we expect. We see that a new boiler decreases root gas consumption by 2.78, corresponding to an average decrease in consumption of 7.71 units. Adding cavity wall insulation has no appreciable average effect on gas consumption. Adding loft insulation above 150mm decreases root gas consumption on average by 1.98 units, corresponding to an average decrease of 3.90 units of gas consumption. This is the variable in which most of the missingness in our data occurred, as we can see that the standard error is (approximately) equal to the estimate, so we can only really be sure that it has a small positive effect on average, and not the exact value of that effect.
 
 
 \section{Conclusions}
@@ -136,7 +136,7 @@ These effects are smaller, so will be discussed in conjunction. First we note th
 	\rowcolors{1}{white}{lgray}
 	\begin{tabular}{r|llr}
 		\hline
-		& Row & Column & p.value \\ 
+		& Variable 1 & Variable 2 & P-value \\ 
 		\hline
 		1 & Gas.cons & Age.band & 0.03 \\ 
 		2 & Gas.cons & Type & 0.00 \\ 
@@ -163,7 +163,7 @@ These effects are smaller, so will be discussed in conjunction. First we note th
 	\end{tabular}
 
 \vspace{0.5em}
-p.value less than 0.05 means variables are (likely to be) statistically dependent.
+A p-value less than 0.05 means variables \\are (likely to be) statistically dependent.
 \caption{Table of results from Chi Squared test for independence. }
 \label{tab:chi}
 \end{table}
