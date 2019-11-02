@@ -4,6 +4,9 @@
 \usepackage[english]{babel}
 \usepackage{hyperref}
 \usepackage{extsizes}
+\usepackage{caption}
+\usepackage[table]{xcolor}
+\definecolor{lgray}{gray}{0.95}
 
 \usepackage[square,numbers]{natbib}
 \bibliographystyle{plainnat}
@@ -53,7 +56,7 @@ We use the R package \texttt{mice} to perform multiple imputation on our data to
 
 There are a few factors that we will account for. The first is that houses are not lines, but (nearly) cubes. We must consider that a house loses heat primarily through its four enclosing walls and its roof. One could think that a four fold increase in gas consumption would be needed to heat a house that is twice larger in length and depth. This means that it would be appropriate to use a square-root transformation on the gas consumption. We must be careful to acknowledge that the age and floor area, although inputted as numerical, are treated as factors. To do otherwise would invalidate the analysis.
 
-The decision to use the square root is validated by looking at the quantile-quantile plots in Figure \ref{fig:qqplots}. We see that the de-trended plot for the transformed response variable gives us far superior results. We will continue with our analysis using the transformed response. We also see clear evidence of a quadratic relationship in the non-transformed plot, further reinforcing our decision. Hence much of our analysis will be of `root units', which we square to get back our initial units of kWh.
+The decision to use the square root is validated by looking at the quantile-quantile plots in Figure \ref{fig:qqplots}. We see that the de-trended plot for the transformed response variable gives us far superior results. We will continue with our analysis using the transformed response. Wee see that our data is heavily tailed. It has a very severe right tail which we ameliorate by taking the square root. This is due to the rounding of values creating large instantaneous increases in density, which violate normality. Hence much of our analysis will be of `root units', which we square to get back our initial units of kWh.
 
 Looking at the data given in Figure \ref{fig:datavis} we see that the median gas consumption is 13000 units. 
 
@@ -128,9 +131,10 @@ These effects are smaller, so will be discussed in conjunction. First we note th
 
 \section{Tables}
 
-\begin{table}[ht]
+\begin{table}[H]
 	\centering
-	\begin{tabular}{rllr}
+	\rowcolors{1}{white}{lgray}
+	\begin{tabular}{r|llr}
 		\hline
 		& Row & Column & p.value \\ 
 		\hline
@@ -157,15 +161,19 @@ These effects are smaller, so will be discussed in conjunction. First we note th
 		21 & Cavity.wall & New.boiler & 0.49 \\ 
 		\hline
 	\end{tabular}
-\caption{Table of results from Chi Squared test for independence. p.value less than 0.05 means variables are (likely to be) statistically dependent.}
+
+\vspace{0.5em}
+p.value less than 0.05 means variables are (likely to be) statistically dependent.
+\caption{Table of results from Chi Squared test for independence. }
 \label{tab:chi}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[H]
 	\centering
-	\begin{tabular}{rlrr}
+	\rowcolors{1}{white}{lgray}
+	\begin{tabular}{r|lrr}
 		\hline
-		& term & estimate & std.error \\ 
+		& Term & Estimate & Standard Error \\ 
 		\hline
 		1 & (Intercept) & 103.68 & 4.06 \\ 
 		2 & Age.band2 & -0.96 & 2.37 \\ 

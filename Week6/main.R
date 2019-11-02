@@ -87,7 +87,7 @@ de = TRUE
 di <- "norm"
 probs <- c(0.05, 0.95)
 sq_qq <-
-  ggplot(NEED, aes(sample = sqrt(Gas.cons))) +
+  ggplot(NEED, aes(sample = sqrt(Gas.cons) - (fitted(NEED_modsqrt)))) +
   stat_qq_point(distribution = di,
                 detrend = de,
                 qprobs = probs) +
@@ -99,7 +99,7 @@ sq_qq <-
                qprobs = probs) +
   labs(x = "Theoretical Quantiles", y = "Sample Quantiles", title = "Detrended Q-Q Plot for \ntransformed response")
 l_qq <-
-  ggplot(NEED, aes(sample = (Gas.cons))) +
+  ggplot(NEED, aes(sample = (Gas.cons) - (fitted(NEED_mod)))) +
   stat_qq_point(distribution = di,
                 detrend = de,
                 qprobs = probs) +
@@ -262,7 +262,7 @@ ggplot_lm <- function(model,
     xlab("Fitted Values") +
     ylab("Residuals") +
     ggtitle("Residuals vs Fitted")
-  p2 <- ggplot(data, aes(sample = pull(data, 1))) +
+  p2 <- ggplot(data, aes(sample = (pull(data, 1)) - fitted(model))) +
     stat_qq_point(distribution = di,
                   detrend = de,
                   qprobs = probs) +
@@ -272,7 +272,7 @@ ggplot_lm <- function(model,
     stat_qq_band(distribution = di,
                  detrend = de,
                  qprobs = probs) +
-    labs(x = "Predicted", y = "Residual", title = "Detrended Q-Q Plot for response")
+    labs(x = "Theoretical", y = "Standardised \nResidual", title = "Detrended Q-Q Plot for response")
   p3 <- gg_resleverage(model)
   p4 <- gg_scalelocation(model)
   return(ggarrange(p1, p2, p4, p3))
