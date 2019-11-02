@@ -130,60 +130,60 @@ These effects are smaller, so will be discussed in conjunction. First we note th
 
 \begin{table}[ht]
 	\centering
-	\begin{tabular}{rllrrr}
+	\begin{tabular}{rllr}
 		\hline
-		& Row & Column & Chi.Square & df & p.value \\ 
+		& Row & Column & p.value \\ 
 		\hline
-		1 & Gas.cons & Age.band & 702.97 & 635 & 0.03 \\ 
-		2 & Gas.cons & Type & 1129.94 & 635 & 0.00 \\ 
-		3 & Gas.cons & Floor.area & 1102.89 & 381 & 0.00 \\ 
-		4 & Gas.cons & Loft.depth & 124.28 & 127 & 0.55 \\ 
-		5 & Gas.cons & Cavity.wall & 145.82 & 127 & 0.12 \\ 
-		6 & Gas.cons & New.boiler & 134.34 & 127 & 0.31 \\ 
-		7 & Age.band & Type & 649.32 &  25 & 0.00 \\ 
-		8 & Age.band & Floor.area & 154.38 &  15 & 0.00 \\ 
-		9 & Age.band & Loft.depth & 17.37 &   5 & 0.00 \\ 
-		10 & Age.band & Cavity.wall & 91.75 &   5 & 0.00 \\ 
-		11 & Age.band & New.boiler & 6.81 &   5 & 0.23 \\ 
-		12 & Type & Floor.area & 1338.01 &  15 & 0.00 \\ 
-		13 & Type & Loft.depth & 2.86 &   5 & 0.72 \\ 
-		14 & Type & Cavity.wall & 71.07 &   5 & 0.00 \\ 
-		15 & Type & New.boiler & 7.94 &   5 & 0.16 \\ 
-		16 & Floor.area & Loft.depth & 0.71 &   3 & 0.87 \\ 
-		17 & Floor.area & Cavity.wall & 36.19 &   3 & 0.00 \\ 
-		18 & Floor.area & New.boiler & 3.29 &   3 & 0.35 \\ 
-		19 & Loft.depth & Cavity.wall & 0.17 &   1 & 0.68 \\ 
-		20 & Loft.depth & New.boiler & 3.06 &   1 & 0.08 \\ 
-		21 & Cavity.wall & New.boiler & 0.47 &   1 & 0.49 \\ 
+		1 & Gas.cons & Age.band & 0.03 \\ 
+		2 & Gas.cons & Type & 0.00 \\ 
+		3 & Gas.cons & Floor.area & 0.00 \\ 
+		4 & Gas.cons & Loft.depth & 0.55 \\ 
+		5 & Gas.cons & Cavity.wall & 0.12 \\ 
+		6 & Gas.cons & New.boiler & 0.31 \\ 
+		7 & Age.band & Type & 0.00 \\ 
+		8 & Age.band & Floor.area & 0.00 \\ 
+		9 & Age.band & Loft.depth & 0.00 \\ 
+		10 & Age.band & Cavity.wall & 0.00 \\ 
+		11 & Age.band & New.boiler & 0.23 \\ 
+		12 & Type & Floor.area & 0.00 \\ 
+		13 & Type & Loft.depth & 0.72 \\ 
+		14 & Type & Cavity.wall & 0.00 \\ 
+		15 & Type & New.boiler & 0.16 \\ 
+		16 & Floor.area & Loft.depth & 0.87 \\ 
+		17 & Floor.area & Cavity.wall & 0.00 \\ 
+		18 & Floor.area & New.boiler & 0.35 \\ 
+		19 & Loft.depth & Cavity.wall & 0.68 \\ 
+		20 & Loft.depth & New.boiler & 0.08 \\ 
+		21 & Cavity.wall & New.boiler & 0.49 \\ 
 		\hline
 	\end{tabular}
-\caption{Table of results from Chi Squared test for independence.}
+\caption{Table of results from Chi Squared test for independence. p.value less than 0.05 means variables are (likely to be) statistically dependent.}
 \label{tab:chi}
 \end{table}
 
 \begin{table}[ht]
 	\centering
-	\begin{tabular}{rrrrr}
+	\begin{tabular}{rlrr}
 		\hline
-		& Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+		& term & estimate & std.error \\ 
 		\hline
-		(Intercept) & 103.6752 & 4.0591 & 25.54 & 0.0000 \\ 
-		Age.band2 & -0.9575 & 2.3684 & -0.40 & 0.6861 \\ 
-		Age.band3 & -3.5850 & 2.2675 & -1.58 & 0.1141 \\ 
-		Age.band4 & -4.8354 & 2.3402 & -2.07 & 0.0389 \\ 
-		Age.band5 & -7.8489 & 2.8745 & -2.73 & 0.0064 \\ 
-		Age.band6 & -13.7566 & 2.9509 & -4.66 & 0.0000 \\ 
-		TypeDetached & 12.6560 & 2.8794 & 4.40 & 0.0000 \\ 
-		TypeEnd-terrace & -5.9697 & 2.7361 & -2.18 & 0.0293 \\ 
-		TypeFlat & -22.9190 & 3.1123 & -7.36 & 0.0000 \\ 
-		TypeMid-terrace & -11.7040 & 2.3311 & -5.02 & 0.0000 \\ 
-		TypeSemi-detached & 0.7507 & 2.0773 & 0.36 & 0.7179 \\ 
-		Floor.area2 & 11.3807 & 3.3056 & 3.44 & 0.0006 \\ 
-		Floor.area3 & 30.2742 & 3.6198 & 8.36 & 0.0000 \\ 
-		Floor.area4 & 52.5568 & 4.5580 & 11.53 & 0.0000 \\ 
-		Loft.depthLe & 1.9758 & 1.9761 & 1.00 & 0.3175 \\ 
-		Cavity.wallY & -0.0906 & 1.3102 & -0.07 & 0.9449 \\ 
-		New.boilerY & -2.7758 & 1.3360 & -2.08 & 0.0379 \\ 
+		1 & (Intercept) & 103.68 & 4.06 \\ 
+		2 & Age.band2 & -0.96 & 2.37 \\ 
+		3 & Age.band3 & -3.58 & 2.27 \\ 
+		4 & Age.band4 & -4.84 & 2.34 \\ 
+		5 & Age.band5 & -7.85 & 2.87 \\ 
+		6 & Age.band6 & -13.76 & 2.95 \\ 
+		7 & TypeDetached & 12.66 & 2.88 \\ 
+		8 & TypeEnd-terrace & -5.97 & 2.74 \\ 
+		9 & TypeFlat & -22.92 & 3.11 \\ 
+		10 & TypeMid-terrace & -11.70 & 2.33 \\ 
+		11 & TypeSemi-detached & 0.75 & 2.08 \\ 
+		12 & Floor.area2 & 11.38 & 3.31 \\ 
+		13 & Floor.area3 & 30.27 & 3.62 \\ 
+		14 & Floor.area4 & 52.56 & 4.56 \\ 
+		15 & Loft.depthLe & 1.98 & 1.98 \\ 
+		16 & Cavity.wallY & -0.09 & 1.31 \\ 
+		17 & New.boilerY & -2.78 & 1.34 \\ 
 		\hline
 	\end{tabular}
 \caption{Table of regression coefficients for the full model.}

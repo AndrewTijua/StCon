@@ -23,6 +23,7 @@ library(vctrs)
 library(lindia)
 library(vcd)
 library(ggmosaic)
+library(broom)
 
 set.seed(1)
 
