@@ -54,7 +54,7 @@ tHSD <- TukeyHSD(AOV_NEED_modsqrt)
 tHSD
 
 densityplot(NEED_mice)
-densityplot( ~ Gas.cons | New.boiler, data = NEED)
+densityplot(~ Gas.cons | New.boiler, data = NEED)
 stripplot(NEED_mice, pch = 20, cex = 1.2)
 
 summary(NEED_modsqrt)
@@ -132,53 +132,51 @@ ggarrange(sq_qq, l_qq)
 qts = c(0.5)
 
 p1 <-
-  ggplot(data = NEED, aes(x = Age.band, y = Gas.cons, fill = Age.band)) + geom_violin(
-    draw_quantiles = qts,
-    size = 0.5,
-    alpha = 0.5
-  ) + labs(x = "Age Band", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+  ggplot(data = NEED, aes(x = Age.band, y = Gas.cons, fill = Age.band)) + geom_violin(draw_quantiles = qts,
+                                                                                      size = 0.5,
+                                                                                      alpha = 0.5) + labs(x = "Age Band", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p2 <-
-  ggplot(data = NEED, aes(x = Type, y = Gas.cons, fill = Type)) + geom_violin(
-    draw_quantiles = qts,
-    size = 0.5,
-    alpha = 0.5
-  ) + labs(x = "Type of Property", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+  ggplot(data = NEED, aes(x = Type, y = Gas.cons, fill = Type)) + geom_violin(draw_quantiles = qts,
+                                                                              size = 0.5,
+                                                                              alpha = 0.5) + labs(x = "Type of Property", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p3 <-
-  ggplot(data = NEED, aes(x = Floor.area, y = Gas.cons, fill = Floor.area)) + geom_violin(
-    draw_quantiles = qts,
-    size = 0.5,
-    alpha = 0.5
-  ) + labs(x = "Floor Area Band", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+  ggplot(data = NEED, aes(x = Floor.area, y = Gas.cons, fill = Floor.area)) + geom_violin(draw_quantiles = qts,
+                                                                                          size = 0.5,
+                                                                                          alpha = 0.5) + labs(x = "Floor Area Band", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p4 <-
-  ggplot(data = NEED, aes(x = New.boiler, y = Gas.cons, fill = New.boiler)) + geom_violin(
-    draw_quantiles = qts,
-    size = 0.5,
-    alpha = 0.5
-  ) + labs(x = "New Boiler", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+  ggplot(data = NEED, aes(x = New.boiler, y = Gas.cons, fill = New.boiler)) + geom_violin(draw_quantiles = qts,
+                                                                                          size = 0.5,
+                                                                                          alpha = 0.5) + labs(x = "New Boiler", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p5 <-
-  ggplot(data = NEED, aes(x = Cavity.wall, y = Gas.cons, fill = Cavity.wall)) + geom_violin(
-    draw_quantiles = qts,
-    size = 0.5,
-    alpha = 0.5
-  ) + labs(x = "Cavity Wall", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+  ggplot(data = NEED, aes(x = Cavity.wall, y = Gas.cons, fill = Cavity.wall)) + geom_violin(draw_quantiles = qts,
+                                                                                            size = 0.5,
+                                                                                            alpha = 0.5) + labs(x = "Cavity Wall", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 p6 <-
-  ggplot(data = NEED, aes(x = Loft.depth, y = Gas.cons, fill = Loft.depth)) + geom_violin(
-    draw_quantiles = qts,
-    size = 0.5,
-    alpha = 0.5
-  ) + labs(x = "Loft Insulation Depth", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+  ggplot(data = NEED, aes(x = Loft.depth, y = Gas.cons, fill = Loft.depth)) + geom_violin(draw_quantiles = qts,
+                                                                                          size = 0.5,
+                                                                                          alpha = 0.5) + labs(x = "Loft Insulation Depth", y = "Gas Consumption") + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 
 pt4 <-
-  ggplot(data = NEED) + geom_density(aes(x = Gas.cons), alpha = 0.3) + geom_jitter(aes(x = Gas.cons, y = 0), width = j_w, height = j_h) + geom_segment((aes(x = quantile(Gas.cons, 0.5), y = 0, xend = quantile(Gas.cons, 0.5), yend = approxfun(density(NEED$Gas.cons))(quantile(Gas.cons, 0.5)))))
+  ggplot(data = NEED) + geom_density(aes(x = Gas.cons), alpha = 0.3) + geom_jitter(aes(x = Gas.cons, y = 0), width = j_w, height = j_h) + geom_segment((aes(
+    x = quantile(Gas.cons, 0.5),
+    y = 0,
+    xend = quantile(Gas.cons, 0.5),
+    yend = approxfun(density(NEED$Gas.cons))(quantile(Gas.cons, 0.5))
+  )))
+
+pt5 <- ggplot(data = NEED) + geom_density(aes(x = sqrt(Gas.cons)), alpha = 0.3, color = "blue") + geom_jitter(aes(
+  x = sqrt(Gas.cons),
+  y = 2e-05),
+  color = "blue",
+  width = j_w,
+  height = j_h)
 
 p1t4 <- ggarrange(p1, p2, p3, pt4)
 
 annotate_figure(p1t4,
-                top = text_grob(
-                  "Exploratory plots of data",
-                  size = 14,
-                  face = 'bold'
-                ))
+                top = text_grob("Exploratory plots of data",
+                                size = 14,
+                                face = 'bold'))
 
 chisq.test(NEED$Type, NEED$Floor.area)
 chisq.test(NEED$Type, NEED$New.boiler)
@@ -204,7 +202,7 @@ df.chisq.test <- function(data, sim = FALSE) {
     )
     return(out)
     
-  })[, -1]
+  })[,-1]
 }
 
 csq <- df.chisq.test(NEED)
@@ -248,7 +246,8 @@ ggplot_lm <- function(model,
     xlab("Fitted Values") +
     ylab("Residuals") +
     ggtitle("Residuals vs Fitted")
-  p2 <- ggplot(data, aes(sample = (pull(data, 1)) - fitted(model))) +
+  p2 <-
+    ggplot(data, aes(sample = (pull(data, 1)) - fitted(model))) +
     stat_qq_point(distribution = di,
                   detrend = de,
                   qprobs = probs) +
@@ -293,5 +292,11 @@ p2 <-
 p3 <-
   ggplot(data = NEED) + geom_mosaic(aes(x = product(Age.band, Floor.area), fill = Age.band))
 p4 <-
-  ggplot(data = NEED) + geom_density(aes(x = Gas.cons), alpha = 0.3) + geom_jitter(aes(x = Gas.cons, y = 0), width = j_w, height = j_h)
+  ggplot(data = NEED) + geom_density(aes(x = Gas.cons), alpha = 0.3) + geom_jitter(aes(x = Gas.cons, y = 0), width = j_w, height = j_h) + geom_density(aes(x = sqrt(Gas.cons), color = "blue"), alpha = 0.3) + geom_jitter(aes(
+    x = sqrt(Gas.cons),
+    y = 2e-05,
+    color = "blue"
+  ),
+  width = j_w,
+  height = j_h)
 ggarrange(p1, p2, p3, p4)
