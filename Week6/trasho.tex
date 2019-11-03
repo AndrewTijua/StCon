@@ -1,4 +1,4 @@
-\documentclass[9pt]{extarticle}
+\documentclass[8pt]{extarticle}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -58,7 +58,7 @@ There are a few factors that we will account for. The first is that houses are n
 
 The decision to use the square root is validated by looking at the quantile-quantile plots in Figure \ref{fig:qqplots}. We see that the de-trended plot for the transformed response variable gives us far superior results. We will continue with our analysis using the transformed response. Wee see that our data is heavily tailed. It has a very severe right tail which we ameliorate by taking the square root. This is due to the rounding of values creating large instantaneous increases in density, which violate normality. Hence much of our analysis will be of `root units', which we square to get back our initial units of kWh.
 
-Looking at the data given in Figure \ref{fig:datavis} we see that the median gas consumption is 13000 units. We see that the distribution is skewed and heavily tailed (yet more reason to take the root transformation). We see that the median consumption is similar across age bands and very different across floor area bands and property types.
+Looking at the data given in Figure \ref{fig:datavis} we see that the median gas consumption is 13000 units. We see that the distribution is skewed and heavily tailed (yet more reason to take the root transformation). We see that the median consumption is similar across age bands and very different across floor area bands and property types. This should be reflected in our conclusions. 
 
 \subsection{Model Comparison and Selection}
 To generate the full model we must first look at the independence of terms in the data. We do this using the $\chi^2$ test, the results of which are given in Table \ref{tab:chi}. We see that many of the variables are interdependent, which will influence our results. We see that the age, type, and floor area of a property are highly related, which is what we realistically expected. We regress the square root of the gas consumption on all of the predictor variables to obtain our full model. The diagnostic plots are given in Figure \ref{fig:fmdiag}. These plots are perfectly sufficient, the leverages are low so our model is quite stable. 
@@ -88,6 +88,8 @@ These effects are smaller, so will be discussed in conjunction. First we note th
 
 \section{Conclusions}
 
+
+\pagebreak
 %\bibliography{references}
 
 \appendix
