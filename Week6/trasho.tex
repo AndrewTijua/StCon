@@ -6,7 +6,7 @@
 \usepackage{extsizes}
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage[table]{xcolor}
+\usepackage[table,dvipsnames]{xcolor}
 \definecolor{lgray}{gray}{0.95}
 
 \usepackage[square,numbers]{natbib}
@@ -27,6 +27,15 @@
  
 \pagestyle{fancy}
 \fancyhf{}
+
+
+\renewcommand{\headrulewidth}{1.5pt}% 2pt header rule
+\renewcommand{\headrule}{\hbox to\headwidth{%
+		\color{MidnightBlue}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0pt}% No footer rule
+%\renewcommand{\footrule}{\hbox to\headwidth{%
+%		\color{MidnightBlue}\leaders\hrule height \footrulewidth\hfill}}
+
 
 \rhead{Benjamin Cox}
 \chead{Statistical Consultancy -- Assessment 1}
