@@ -80,7 +80,8 @@ m_plot_ageclass <- ggplot(age_data_pm, aes(x = age, y = PredictedProb)) +
   geom_line(aes(color = pclass, y = LL), size = 0.75) + 
   geom_line(aes(color = pclass, y = UL), size = 0.75)  + 
   geom_ribbon(aes(ymin = LL, ymax = UL, fill = pclass), alpha = 0.5) + 
-  lims(x = c(0, 80), y = c(0, 1))
+  lims(x = c(0, 80), y = c(0, 1)) + 
+  labs(title = "Predicted Male Survival by Class")
 
 age_data_f <-
   with(
@@ -111,6 +112,7 @@ w_plot_ageclass <- ggplot(age_data_pf, aes(x = age, y = PredictedProb)) +
   geom_line(aes(color = pclass, y = LL), size = 0.75) + 
   geom_line(aes(color = pclass, y = UL), size = 0.75)  + 
   geom_ribbon(aes(ymin = LL, ymax = UL, fill = pclass), alpha = 0.5) + 
-  lims(x = c(0, 80), y = c(0, 1))
+  lims(x = c(0, 80), y = c(0, 1)) +
+  labs(title = "Predicted Female Survival by Class")
 
-ggarrange(m_plot_ageclass, w_plot_ageclass)
+ggarrange(m_plot_ageclass, w_plot_ageclass, common.legend = TRUE)
