@@ -88,22 +88,9 @@ Graphs showing the predicted survival by age with variable class and sex are giv
 
 More explicitly we have that the coefficients for the model are found in Table \ref{tab:regco}. Note that these effect the logit of the probability (as given above), so we need to invert this in order to get the predicted probability of survival. The predicted probability of survival is given by $P_{surv} = \exp(y)/(1+\exp(y)),$ where $y$ is our response variable.
 \subsection{Effect of Age}
-We see that age has less of an effect than might be expected. The first four age bands have minimal effect. The fifth and the sixth age bands have more significant differences, with a decrease on average of 7.84 and 13.76 respectively. This means that new builds have decreased gas consumption. This may be due to the types of property built in new builds, as in Table \ref{tab:chi} we see that they are not independent.
-
-\subsection{Effect of Type}
-We see that the type of property is very significant in determining the gas consumption. Detached houses have an increased root gas consumption compared to bungalows, consuming 12.7 root units more. Semi detached consume only very slightly more, to the point that it is not significant (it is less than the standard error of the estimate). Terraced and end of terrace houses consume less. Flats consume significantly less, with 22.9 less root units on average, corresponding to 525 units less on average. 
-
-\subsection{Effect of Floor Area}
-We see that floor area has a significant effect on the gas consumption. All of them are significantly different from each other. The largest floor area consumes on average 52.56 root units, or 2762 units on average more than the smallest floor area. This is also not independent of the type of property, so we must know that changing one should have an effect on the other (ie a property with a large floor area is less likely to be a flat than detached).
-
-\subsection{Effects of Modifications to The Property}
-These effects are smaller, so will be discussed in conjunction. First we note that we see in Table \ref{tab:chi} that all of the modifications are largely independent of each other. This meshes with what we expect. We see that a new boiler decreases root gas consumption by 2.78, corresponding to an average decrease in consumption of 7.71 units. Adding cavity wall insulation has no appreciable average effect on gas consumption. Adding loft insulation above 150mm decreases root gas consumption on average by 1.98 units, corresponding to an average decrease of 3.90 units of gas consumption. We see that the standard error is equal to the estimate, so we can only really be sure that it has a small positive effect on average, and not the exact value of that effect.
 
 \section{Conclusions}
 
-We can conclude that if we want to decrease gas consumption we should build small flats with good insulation (loft and cavity wall) and new models of boiler. This is a foregone conclusion, but we now have numbers to back it up. A modern flat (age band 6, floor band 1) consumes 6000 fewer kWh per annum on average than an average house (mid-terrace, age band 4, floor band 2, no cavity wall, bad loft insulation, old boiler). This is a saving of approximately \pounds 230 per year (UK average price per kWh of gas is 3.8p). 
-
-We cannot make any inferences as to why these changes make an effect from the model; the model only tells us the effect that they have. In this case it is somewhat obvious as to why the variables have the effects that they do, but it is often not. For example, flats are likely more efficient as they benefit from a collective heating effect in which flats are warmed by others around them. This is not present in detached houses. We know this from common sense, but this is not explicitly reflected in the model. 
 %\pagebreak
 %\bibliography{references}
 
