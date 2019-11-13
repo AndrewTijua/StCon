@@ -66,12 +66,21 @@ Looking at the fare paid by the passenger it is clear that in our data the fare 
 
 We will also note that there are some mistakes in the data; some ages are recorded incorrectly. As there are thousands of records we hope that the correct values will swamp the effect of the incorrect values. No attempt will be made to fix the data, as there is no reasonable way to do so in the time-frame given for this analysis.
 
-\subsection{Model Comparison and Selection}
- First we example the independence of our variables. We do this using the $\chi^2$ test, the results of which are given in Table \ref{tab:chi}. We see that many of the variables are interdependent, which will influence our results. We see that the age, type, and floor area of a property are highly related, which is what we expected. We regress the square root of the gas consumption on all of the predictors to obtain our full model. The diagnostic plots are given in Figure \ref{fig:fmdiag}. These plots are sufficient to make general predictions.
+The data that we have been provided has been subject to imputation. This was particularly heavy in the age variable, with 263 values being imputed. As we have only the one dataset we cannot bring to bear many of the tools that are available to deal with the uncertainty brought about by missing data imputation. We must simply keep in mind that the statistics for age will be artificially more certain.
 
-We will now compare the full model to two sub-models. The sub-models regress gas consumption on either the base property (age, type, floor area) and on modifications to the property (loft insulation, cavity wall insulation, new boiler). The diagnostic plots are given in Figure \ref{fig:smdiag}. The plots show that both are valid models which give similar results to the initial model. We compare them to the initial model using an ANOVA test. We see that the modifications model is significantly different from the initial model, so the base properties of the property have significant effects. The property model is not statistically significantly different from the full model.  We compare the residual sum of squares (lower is better) and see that the full model has an RSS of 1244518, the property model has an RSS of 1248346, and that the modification model has an RSS of 1880124. The modifications to the property have a significantly lesser effect on the consumption than the properties inherent to the property. Looking at the Q-Q plot for the modification model one may think it is a better model. This is false; the Q-Q plot looks this way as the model is unable to predict the values that are more common and thus distort the plot. 
+\subsection{Model Design}
 
-We choose to use the full model for our analysis as we wish to see the effects of the modifications on the property, as these are measures that can be taken after a property is constructed. The regression coefficients are given in Table \ref{tab:fulmo}. These are the expected difference in root gas consumption from the `baseline' of a property with given characteristics.
+We are going to use a logistic regression with the response variable being the logit probability of survival. This means that the response variable is of the form $y = \ln(P/1-P),$ where $P$ is the probability of survival. We do this as we are modelling a categorical variable, so we want a response that is close to categorical. We can simply round the response to get an indicator as to whether the passenger would likely survive or perish.
+
+We create the model with the predictors being age, sex, class, port of embarkation, whether or not the passenger had a cabin, and the sum number of siblings and spouses the passenger had aboard (hereon referred to as sibsp).
+
+The reason for excluding the sum number of parents and children of the passenger is that it is extremely closely interlinked with the age and sibsp. It does not add much to the model when included as the corresponding coefficient is not statistically significantly different from 0.
+
+We could include a parsed title of the passenger as a factor variable, however the overwhelming majority of the passengers go by the standard three (Mr., Mrs., Miss.). This means that this would be highly susceptible to outliers, as well as being completely dependent on sex.
+
+We do not include fare as it is completely dependent on class and the number of people travelling in a certain party. An example would be the wealthy Sir. Duff Gordon's fare being recorded as 56.93 pounds, and the 3rd class passenger Mr. Frederick Sage having his fare recorded as 69.55 pounds. This is due to his travelling in a party of 11. This means that this should be accounted for by passenger class and sibsp.
+
+We make the cabin into a binary variable. The idea for this is that people with a cabin are likely to have easier access to the decks to evacuate. We note that not all 1st class passengers had cabins, and not all cabins were 1st class. This makes it quite the interesting predictor.
 
 \section{Discussion of Results}
 
