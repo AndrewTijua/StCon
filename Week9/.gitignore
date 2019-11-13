@@ -1,2 +1,5 @@
 *.Rhistory
 *.RData
+/trasho.aux
+/trasho.out
+/trasho.synctex.gz

@@ -38,37 +38,33 @@
 
 
 \rhead{Benjamin Cox}
-\chead{Statistical Consultancy -- Assessment 1}
-\lhead{Due 6th November}
+\chead{Statistical Consultancy -- Assessment 2}
+\lhead{Due 22nd November}
 \cfoot{Page \thepage}
 
 \begin{document}
 
 \section{Introduction}
 
-We consider data on the gas consumption of dwellings of various types throughout North-East England. We have data on the gas consumption, age of the property, type of property, floor area of property, depth of loft insulation, whether cavity wall insulation is fitted, and whether a new boiler has been installed.
+We consider data on the survival of passengers of the RMS Titanic. The data contains many variables about the passengers of the Titanic, some of which we will use and some of which we will not. We are going to perform logistic regression in order to ascertain the effect that certain variables have on the survival of a passenger. We have 1309 individual passenger records to analyse. 
 
-All but the gas consumption data is categorical, meaning that for example we do not know the precise age of the property but rather that it lies in a range of ages. This will impact our analysis and make it somewhat less accurate, but is a common trade-off, as it is easier to collect and store data of this sort. Obviously the type of property must be categorical, for example. We must note that the gas consumption has been somewhat severely rounded, resulting in artificially common values, especially on the higher end.
-
-We will note that the gas consumption has been pre-corrected for weather, so this will not be a factor in our analysis. The data has also been selected to be representative of the housing stock, which will allow for us to draw more general conclusions. When we refer to a `unit' of gas we mean 1 kWh per year.
+We are particularly interested in the affect of socio-economic status on survival probabilities, as well whether the adage of `women and children first' holds.
 
 \section{Statistical Analysis}
 
-\subsection{Handling the Missing Data}
+\subsection{Introduction to our data}
 
-First we must check the data for missing values and decide how to continue. An aggregate plot of the data is found in Figure \ref{fig:aggrmiss}. Obviously one must think about the ramifications of this, but we can clearly see that a large proportion of the data for loft insulation is missing, making it somewhat less useful for our analysis. We assume a completely random missing data mechanism, as this is the most likely given the nature of our data. This means that using predictive mean matching should give us results that are unbiased. We will use this going forward.
+The survival variable is binary (they either survived or died). This is the reason for using simple logistic regression. The passenger class is a factor variable with three levels corresponding to 1st, 2nd, and 3rd class. The sex is a factor variable with two levels corresponding to male and female. The age is a continuous variable (with rounding applied). We have data on the sum number of siblings and spouses aboard of a passenger, as well as of the number of parents and children. These are highly correlated, so we will only use one. In our case we will use the siblings and spouses. We have the ticket number, which is useless for our analysis. We have the fare paid by the passenger. This is continuous and has properties that warrant a discussion later. We have the cabin number, which we will use to ascertain whether a passenger had a cabin (this is highly correlated with passenger class). We have the port of embarkation, which is one of Cherbourg, Queenstown, and Southampton. We have the lifeboat number, which is useless, as well as the body number. These are both useless as they are a posteriori of the survival. We also have the home/destination of the passenger. This is also useless.
 
-Another way of dealing with missingness in categorical variables is to make NA a category. This is not what we are going to use, but it is a simple way of getting the analysis to work.
-
-We use the R package \texttt{mice} to perform multiple imputation on our data to obtain a full dataset. The implementation of predictive mean matching that is used selects randomly from the 5 nearest neighbours (defined by squared difference in predicted value), so we fix our random seed to get repeatable results.
+This time around our data has no missingness that is not appropriate. Moreover none of the variables that we are analysing have missingness (the NA in cabin number means that the passenger did not have a cabin). 
 
 \subsection{Initial Analysis}
 
-There are a few factors that we will account for. The first is that houses are not lines, but (nearly) cubes. We must consider that a house loses heat primarily through its four enclosing walls and its roof. One could think that a four fold increase in gas consumption would be needed to heat a house that is twice larger in length and depth. This means that it would be appropriate to use a square-root transformation on the gas consumption. 
+We first need to conduct an analysis of the independence of the variables we think we may include in our model. Performing a chi squared test we find that most variables of interest for the model are highly interdependent. However the type of model that we are fitting is somewhat resilient to this. What is important is that the variables are not co-linear. Most of our variables cannot be co-linear as they are factor variables. The only ones of concern are the sum number of siblings and spouses and the sum number of parents and children. We calculate the variance inflation factors for these variables. They come out as 1.24 and 1.23 respectively. The standard threshold for multicollinearity is 3, so we are very safe.
 
-The decision to use the square root is validated by looking at the Q-Q plots in Figure \ref{fig:qqplots}. We see that the plot for the transformed response variable gives us superior results. We will continue with our analysis using the transformed response. We see that our data is heavily tailed. It has a very severe right tail which we ameliorate by taking the square root. This is due to the rounding of values creating large instantaneous increases in density, which violate linearity assumptions. Hence much of our analysis will be of `root units', which we square to get back our initial units of kWh.
+Looking at the fare paid by the passenger it is clear that in our data the fare paid is that of the ticket purchase, not per person. This means that those travelling in large groups will seem to pay a very large fare, whilst in reality no paying quite so high a price. Couple this with the fact that the fare is inextricably linked with both the passenger class and whether the passenger received a cabin and we are safe to remove this factor from our model. 
 
-Looking at the data given in Figure \ref{fig:datavis} we see that the median gas consumption is 13000 units. We see that the distribution is skewed and heavily tailed (yet more reason to take the root transformation). We see that the median consumption is similar across age bands and very different across floor area bands and property types. This should be reflected in our conclusions. 
+We will also note that there are some mistakes in the data; some ages are recorded incorrectly. As there are thousands of records we hope that the correct values will swamp the effect of the incorrect values. No attempt will be made to fix the data, as there is no reasonable way to do so in the time-frame given for this analysis.
 
 \subsection{Model Comparison and Selection}
  First we example the independence of our variables. We do this using the $\chi^2$ test, the results of which are given in Table \ref{tab:chi}. We see that many of the variables are interdependent, which will influence our results. We see that the age, type, and floor area of a property are highly related, which is what we expected. We regress the square root of the gas consumption on all of the predictors to obtain our full model. The diagnostic plots are given in Figure \ref{fig:fmdiag}. These plots are sufficient to make general predictions.
@@ -109,14 +105,14 @@ We cannot make any inferences as to why these changes make an effect from the mo
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{aggr_missplot}
+%	\includegraphics[width=0.7\textwidth]{aggr_missplot}
 	\caption{Aggregate plot of missingness in our data}
 	\label{fig:aggrmiss}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{datavis}
+%	\includegraphics[width=0.7\textwidth]{datavis}
 	\caption{Visualisation of data relating to gas consumption}
 	\label{fig:datavis}
 \end{figure}
@@ -124,22 +120,22 @@ We cannot make any inferences as to why these changes make an effect from the mo
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{qqplots}
+%	\includegraphics[width=0.7\textwidth]{qqplots}
 	\caption{Model Q-Q plots for the transformed and non-transformed models}
 	\label{fig:qqplots}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{fm_diag}
+%	\includegraphics[width=0.7\textwidth]{fm_diag}
 	\caption{Model diagnostic plots for our full model}
 	\label{fig:fmdiag}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{diag_modif}
-	\includegraphics[width=0.4\textwidth]{diag_prop}
+%	\includegraphics[width=0.4\textwidth]{diag_modif}
+%	\includegraphics[width=0.4\textwidth]{diag_prop}
 	\caption{Model diagnostic plots for our sub-models}
 	\label{fig:smdiag}
 \end{figure}
