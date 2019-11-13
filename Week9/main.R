@@ -20,6 +20,7 @@ library(ggmosaic)
 library(vcd)
 library(corrplot)
 library(dplyr)
+library(broom)
 registerDoFuture()
 plan(multiprocess, workers = availableCores() - 1)
 
