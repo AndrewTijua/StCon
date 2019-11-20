@@ -101,7 +101,7 @@ confusionMatrix(factor(predicted), factor(passenger_data_cleaned$survived))
 
 size_bfl <- 0.75
 size_bou <- 0.45
-alp <- 0.45
+alp <- 0.25
 
 plot_fit <-
   glm(data = passenger_data_cleaned,
