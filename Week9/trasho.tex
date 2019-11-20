@@ -68,6 +68,8 @@ We will also note that there are some mistakes in the data; some ages are record
 
 The data that we have been provided has been subject to imputation. This was particularly heavy in the age variable, with 263 values being imputed. As we have only the one dataset we cannot bring to bear many of the tools that are available to deal with the uncertainty brought about by missing data imputation. We must simply keep in mind that the statistics for age will be artificially more certain.
 
+Both of the above are immaterial for our analysis however; we have been given a dataset and instructed to analyse it. The data could be completely fictional and the method of analysis would not change. We are merely pointing this out to provide some additional context for our reader.
+
 \subsection{Model Design}
 
 We are going to use a logistic regression with the response variable being the logit probability of survival. This means that the response variable is of the form $y = \ln(P/1-P),$ where $P$ is the probability of survival. We do this as we are modelling a categorical variable, so we want a response that is close to categorical. We can simply round the response to get an indicator as to whether the passenger would likely survive or perish.
@@ -78,13 +80,13 @@ The reason for excluding the sum number of parents and children of the passenger
 
 We could include a parsed title of the passenger as a factor variable, however the overwhelming majority of the passengers go by the standard three (Mr., Mrs., Miss.). This means that this would be highly susceptible to outliers, as well as being completely dependent on sex.
 
-We do not include fare as it is completely dependent on class and the number of people travelling in a certain party. An example would be the wealthy Sir. Duff Gordon's fare being recorded as 56.93 pounds, and the 3rd class passenger Mr. Frederick Sage having his fare recorded as 69.55 pounds. This is due to his travelling in a party of 11. This means that this should be accounted for by passenger class and sibsp.
+We do not include fare as it is completely dependent on class and the number of people travelling in a certain party. An example would be the wealthy Sir Duff Gordon's fare being recorded as 56.93 pounds, and the 3rd class passenger Mr Frederick Sage having his fare recorded as 69.55 pounds. This is due to his travelling in a party of 11. This means that this should be accounted for by passenger class and sibsp.
 
 We make the cabin into a binary variable. The idea for this is that people with a cabin are likely to have easier access to the decks to evacuate. We note that not all 1st class passengers had cabins, and not all cabins were 1st class. This makes it quite the interesting predictor.
 
 \section{Discussion of Results}
 
-Graphs showing the predicted survival by age with variable class and sex are given in Figure \ref{fig:psurvage}. We see that women had a far greater chance of survival than men of the same class. In fact 3rd class women had a better survival chance than 1st class men. This, coupled with the decreasing survival probabilities with age, points to `women and children first' very much being a thing. 
+Graphs showing the predicted survival by age with variable class and sex are given in Figure \ref{fig:psurvage}. We see that women had a far greater chance of survival than men of the same class. In fact 3rd class women had a better survival chance than 1st class men. This, coupled with the decreasing survival probabilities with age, points to `women and children first' very much being obeyed. 
 
 More explicitly we have that the coefficients for the model are found in Table \ref{tab:regco}. Note that these effect the logit of the probability (as given above), so we need to invert this in order to get the predicted probability of survival. The predicted probability of survival is given by $P_{surv} = \exp(y)/(1+\exp(y)),$ where $y$ is our response variable.
 \subsection{Effect of Age}

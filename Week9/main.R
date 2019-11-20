@@ -99,6 +99,10 @@ predicted <-
 
 confusionMatrix(factor(predicted), factor(passenger_data_cleaned$survived))
 
+size_bfl <- 0.75
+size_bou <- 0.45
+alp <- 0.45
+
 plot_fit <-
   glm(data = passenger_data_cleaned,
       formula = survived ~ age + pclass + sex,
@@ -128,10 +132,10 @@ age_data_pm <- within(age_data_pm, {
 })
 
 m_plot_ageclass <- ggplot(age_data_pm, aes(x = age, y = PredictedProb)) + 
-  geom_line(aes(color = pclass), size = 1.25) + 
-  geom_line(aes(color = pclass, y = LL), size = 0.75) + 
-  geom_line(aes(color = pclass, y = UL), size = 0.75)  + 
-  geom_ribbon(aes(ymin = LL, ymax = UL, fill = pclass), alpha = 0.5) + 
+  geom_line(aes(color = pclass), size = size_bfl) + 
+  geom_line(aes(color = pclass, y = LL), size = size_bou) + 
+  geom_line(aes(color = pclass, y = UL), size = size_bou)  + 
+  geom_ribbon(aes(ymin = LL, ymax = UL, fill = pclass), alpha = alp) + 
   lims(x = c(0, 80), y = c(0, 1)) + 
   labs(title = "Predicted Male Survival by Class")
 
@@ -159,10 +163,10 @@ age_data_pf <- within(age_data_pf, {
 })
 
 w_plot_ageclass <- ggplot(age_data_pf, aes(x = age, y = PredictedProb)) + 
-  geom_line(aes(color = pclass), size = 1.25) + 
-  geom_line(aes(color = pclass, y = LL), size = 0.75) + 
-  geom_line(aes(color = pclass, y = UL), size = 0.75)  + 
-  geom_ribbon(aes(ymin = LL, ymax = UL, fill = pclass), alpha = 0.5) + 
+  geom_line(aes(color = pclass), size = size_bfl) + 
+  geom_line(aes(color = pclass, y = LL), size = size_bou) + 
+  geom_line(aes(color = pclass, y = UL), size = size_bou)  + 
+  geom_ribbon(aes(ymin = LL, ymax = UL, fill = pclass), alpha = alp) + 
   lims(x = c(0, 80), y = c(0, 1)) +
   labs(title = "Predicted Female Survival by Class")
 
