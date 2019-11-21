@@ -1,4 +1,4 @@
-\documentclass[]{extarticle}
+\documentclass[9pt]{extarticle}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -138,6 +138,12 @@ Another archetype is that of the third class family. They are represented by row
 
 We generate a 2nd class couple with the wife bringing her sister. We make them a bit older this time. They are represented by rows 8, 9, and 10 in Table \ref{tab:illdata}. We see that the man is extremely likely to perish, with his partner being quite likely to survive. Her sister is even more likely to survive. This is illustrative of `women and children first`, as they are very similar in all aspects excepting sex. This also displays the effect of siblings and spouses quite nicely.
 
+\section{Conclusion}
+
+The Titanic was an unmitigated disaster. It shaped the protocols for passenger ship design for generations, as well as navigational procedures and search and rescue. It became an important cultural icon, uniting many in the idea of `what if?' The design of the ship was such that there were insufficient lifeboats, drills were not carried out to ensure passengers and crew knew how to react. The culture of the time shaped the survival of the passengers. 
+
+We can only conclude that were there more lifeboats and proper training in the procedures for their use many more, if not all, would have survived. The incident is utterly damning of the attitudes of the time, as well as more concretely the shipbuilding methods. We see that the survivors were disproportionately upper class, with the vast majority of steerage and the crew perishing due to the ill designed ship, the poor command, and the shoddy preparation.
+
 %\pagebreak
 %\bibliography{references}
 
@@ -147,14 +153,14 @@ We generate a 2nd class couple with the wife bringing her sister. We make them a
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{psurvage}
+	\includegraphics[width=0.6\textwidth]{psurvage}
 	\caption{Predicted survival probabilities with 95\% prediction intervals}
 	\label{fig:psurvage}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{modeldiag}
+	\includegraphics[width=0.6\textwidth]{modeldiag}
 	\caption{Diagnostic plots for our model}
 	\label{fig:modeldiag}
 \end{figure}
@@ -162,6 +168,7 @@ We generate a 2nd class couple with the wife bringing her sister. We make them a
 \section{Tables}
 \begin{table}[H]
 	\centering
+	\rowcolors{1}{white}{lgray}
 	\begin{tabular}{rlrr}
 		\hline
 		& term & estimate & std.error \\ 
@@ -184,8 +191,9 @@ We generate a 2nd class couple with the wife bringing her sister. We make them a
 \label{tab:regco}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[H]
 	\centering
+	\rowcolors{1}{white}{lgray}
 	\begin{tabular}{rlllrrllr}
 		\hline
 		& pclass & survived & sex & age & sibsp & cabin & embarked & p\_surv \\ 
