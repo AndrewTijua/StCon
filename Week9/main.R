@@ -21,7 +21,7 @@ library(vcd)
 library(corrplot)
 library(dplyr)
 library(broom)
-registerDoFuture()
+registerDoFuture()#yeye
 plan(multiprocess, workers = availableCores() - 1)
 
 options(datatable.fread.datatable=FALSE)
